@@ -7,8 +7,8 @@ import {
   getUserProgress,
   getUserAchievements,
   deleteUser,
-} from '@/controllers/userController';
-import { authenticate, requireRegisteredUser } from '@/middleware/auth';
+} from '../controllers/userController';
+import { authenticate, requireRegisteredUser } from '../middleware/auth';
 
 const router = Router();
 
