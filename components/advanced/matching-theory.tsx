@@ -5,8 +5,6 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-// Commented out due to missing exports
-/*
 import {
   galeShapleyAlgorithm,
   isStableMatching,
@@ -17,12 +15,6 @@ import {
   type Match,
   type MatchingMarket
 } from "@/lib/game-theory/matching-theory"
-*/
-
-// Mock types for development
-type Agent = any;
-type Match = any;
-type MatchingMarket = any;
 
 export function MatchingTheory() {
   const [market, setMarket] = useState<MatchingMarket | null>(null)
