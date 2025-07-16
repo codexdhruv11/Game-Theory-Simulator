@@ -1,0 +1,574 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+    
+    /* Game theory specific colors */
+    --cooperation: 142 76% 36%;
+    --cooperation-foreground: 0 0% 100%;
+    --defection: 0 84% 60%;
+    --defection-foreground: 0 0% 100%;
+    --equilibrium: 221 83% 53%;
+    --equilibrium-foreground: 0 0% 100%;
+    --instability: 25 95% 53%;
+    --instability-foreground: 0 0% 100%;
+    
+    /* Network visualization variables */
+    --node-border: 214.3 31.8% 91.4%;
+    --node-border-active: 221.2 83.2% 53.3%;
+    --node-fill: 0 0% 100%;
+    --node-fill-active: 210 40% 98%;
+    --edge-color: 214.3 31.8% 91.4%;
+    --edge-color-active: 221.2 83.2% 53.3%;
+    
+    /* Animation timing variables */
+    --animation-fast: 0.15s;
+    --animation-normal: 0.3s;
+    --animation-slow: 0.5s;
+    --animation-very-slow: 1s;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 94.1%;
+    
+    /* Game theory specific colors */
+    --cooperation: 142 76% 46%;
+    --cooperation-foreground: 0 0% 100%;
+    --defection: 0 84% 70%;
+    --defection-foreground: 0 0% 100%;
+    --equilibrium: 217 91% 60%;
+    --equilibrium-foreground: 0 0% 100%;
+    --instability: 25 95% 63%;
+    --instability-foreground: 0 0% 100%;
+    
+    /* Network visualization variables */
+    --node-border: 217.2 32.6% 17.5%;
+    --node-border-active: 217.2 91.2% 59.8%;
+    --node-fill: 222.2 84% 4.9%;
+    --node-fill-active: 222.2 84% 4.9%;
+    --edge-color: 217.2 32.6% 17.5%;
+    --edge-color-active: 217.2 91.2% 59.8%;
+  }
+
+  .theme-academic {
+    --background: 60 9.1% 97.8%;
+    --foreground: 24 9.8% 10%;
+    --card: 60 9.1% 97.8%;
+    --card-foreground: 24 9.8% 10%;
+    --popover: 60 9.1% 97.8%;
+    --popover-foreground: 24 9.8% 10%;
+    --primary: 142.1 76.2% 36.3%;
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 60 4.8% 95.9%;
+    --secondary-foreground: 24 9.8% 10%;
+    --muted: 60 4.8% 95.9%;
+    --muted-foreground: 25 5.3% 44.7%;
+    --accent: 60 4.8% 95.9%;
+    --accent-foreground: 24 9.8% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 9.1% 97.8%;
+    --border: 20 5.9% 90%;
+    --input: 20 5.9% 90%;
+    --ring: 142.1 76.2% 36.3%;
+    
+    /* Game theory specific colors */
+    --cooperation: 142.1 76.2% 36.3%;
+    --cooperation-foreground: 355.7 100% 97.3%;
+    --defection: 0 84.2% 60.2%;
+    --defection-foreground: 60 9.1% 97.8%;
+    --equilibrium: 200 76% 36%;
+    --equilibrium-foreground: 355.7 100% 97.3%;
+    --instability: 25 95% 53%;
+    --instability-foreground: 355.7 100% 97.3%;
+    
+    /* Network visualization variables */
+    --node-border: 20 5.9% 90%;
+    --node-border-active: 142.1 76.2% 36.3%;
+    --node-fill: 60 9.1% 97.8%;
+    --node-fill-active: 60 9.1% 97.8%;
+    --edge-color: 20 5.9% 90%;
+    --edge-color-active: 142.1 76.2% 36.3%;
+  }
+
+  .theme-neon {
+    --background: 224 71.4% 4.1%;
+    --foreground: 210 20% 98%;
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 263.4 70% 50.4%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 263.4 70% 50.4%;
+    
+    /* Game theory specific colors */
+    --cooperation: 160 70% 50%;
+    --cooperation-foreground: 210 20% 98%;
+    --defection: 330 70% 50%;
+    --defection-foreground: 210 20% 98%;
+    --equilibrium: 263.4 70% 50.4%;
+    --equilibrium-foreground: 210 20% 98%;
+    --instability: 30 70% 50%;
+    --instability-foreground: 210 20% 98%;
+    
+    /* Network visualization variables */
+    --node-border: 215 27.9% 16.9%;
+    --node-border-active: 263.4 70% 50.4%;
+    --node-fill: 224 71.4% 4.1%;
+    --node-fill-active: 224 71.4% 4.1%;
+    --edge-color: 215 27.9% 16.9%;
+    --edge-color-active: 263.4 70% 50.4%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .svg-container {
+    @apply w-full h-full;
+  }
+  
+  .node {
+    @apply transition-all duration-300;
+    fill: hsl(var(--node-fill));
+    stroke: hsl(var(--node-border));
+    stroke-width: 2;
+  }
+  
+  .node-active {
+    fill: hsl(var(--node-fill-active));
+    stroke: hsl(var(--node-border-active));
+    stroke-width: 3;
+  }
+  
+  .edge {
+    @apply transition-all duration-300;
+    stroke: hsl(var(--edge-color));
+    stroke-width: 1.5;
+  }
+  
+  .edge-active {
+    stroke: hsl(var(--edge-color-active));
+    stroke-width: 2.5;
+  }
+  
+  .matrix-cell {
+    @apply transition-all duration-300 border border-border p-2 text-center;
+  }
+  
+  .matrix-cell-highlight {
+    @apply bg-primary/20;
+  }
+  
+  .matrix-cell-equilibrium {
+    @apply bg-equilibrium/20 border-equilibrium;
+  }
+  
+  .strategy-card {
+    @apply rounded-md border border-border p-4 transition-all duration-300 hover:shadow-md hover:border-primary;
+  }
+  
+  .strategy-card-active {
+    @apply border-primary bg-primary/10;
+  }
+  
+  .particle {
+    @apply absolute rounded-full bg-primary/50 animate-particle-float;
+  }
+  
+  /* Network game styles */
+  .network-node {
+    @apply transition-all duration-300 cursor-pointer;
+  }
+  
+  .network-node-pulse {
+    animation: pulse 2s infinite;
+  }
+  
+  .network-edge {
+    @apply transition-all duration-500;
+  }
+  
+  .network-edge-active {
+    animation: edge-pulse 1.5s infinite;
+  }
+  
+  /* Coalition visualization */
+  .coalition-group {
+    @apply transition-all duration-500;
+  }
+  
+  .coalition-member {
+    @apply transition-all duration-300;
+  }
+  
+  .coalition-member-active {
+    animation: member-highlight 2s infinite;
+  }
+  
+  /* Auction visualization */
+  .bid-marker {
+    @apply transition-all duration-300;
+  }
+  
+  .bid-marker-active {
+    animation: bid-bounce 0.5s ease-in-out;
+  }
+  
+  .price-line {
+    @apply transition-all duration-500;
+  }
+  
+  /* Behavioral economics visualization */
+  .utility-curve {
+    @apply transition-all duration-1000;
+    fill: none;
+    stroke: hsl(var(--primary));
+    stroke-width: 2;
+  }
+  
+  .probability-weight {
+    @apply transition-all duration-1000;
+    fill: none;
+    stroke: hsl(var(--equilibrium));
+    stroke-width: 2;
+  }
+  
+  /* Signaling game visualization */
+  .signal-path {
+    @apply transition-all duration-300;
+    stroke-dasharray: 5;
+    animation: signal-flow 2s infinite linear;
+  }
+  
+  .belief-update {
+    animation: belief-update 1s ease-out;
+  }
+  
+  /* Matching theory visualization */
+  .match-line {
+    @apply transition-all duration-500;
+  }
+  
+  .match-line-stable {
+    @apply stroke-cooperation;
+  }
+  
+  .match-line-unstable {
+    @apply stroke-defection;
+    animation: unstable-match 2s infinite;
+  }
+  
+  /* Voting theory visualization */
+  .vote-bar {
+    @apply transition-all duration-500;
+  }
+  
+  .vote-bar-winner {
+    animation: winner-highlight 1s ease-out;
+  }
+  
+  /* Repeated games visualization */
+  .strategy-path {
+    @apply transition-all duration-300;
+  }
+  
+  .strategy-path-active {
+    animation: path-dash 1.5s infinite linear;
+  }
+}
+
+@layer utilities {
+  .animate-once {
+    animation-iteration-count: 1;
+  }
+  
+  .animate-twice {
+    animation-iteration-count: 2;
+  }
+  
+  .animate-thrice {
+    animation-iteration-count: 3;
+  }
+  
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+  
+  .perspective-500 {
+    perspective: 500px;
+  }
+  
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+  
+  .rotate-x-180 {
+    transform: rotateX(180deg);
+  }
+}
+
+/* Animation keyframes */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes edge-pulse {
+  0% {
+    stroke-width: 1.5;
+    stroke-opacity: 0.8;
+  }
+  50% {
+    stroke-width: 3;
+    stroke-opacity: 1;
+  }
+  100% {
+    stroke-width: 1.5;
+    stroke-opacity: 0.8;
+  }
+}
+
+@keyframes member-highlight {
+  0% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.3);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+
+@keyframes bid-bounce {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes signal-flow {
+  0% {
+    stroke-dashoffset: 20;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes belief-update {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes unstable-match {
+  0% {
+    stroke-dasharray: 0;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 4;
+    stroke-dashoffset: 8;
+  }
+  100% {
+    stroke-dasharray: 0;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes winner-highlight {
+  0% {
+    filter: brightness(1);
+    transform: scaleY(1);
+  }
+  50% {
+    filter: brightness(1.2);
+    transform: scaleY(1.05);
+  }
+  100% {
+    filter: brightness(1);
+    transform: scaleY(1);
+  }
+}
+
+@keyframes path-dash {
+  0% {
+    stroke-dasharray: 5;
+    stroke-dashoffset: 20;
+  }
+  100% {
+    stroke-dasharray: 5;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes particle-float {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-20px) translateX(10px);
+    opacity: 0;
+  }
+}
+
+@keyframes strategy-transition {
+  0% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(10px) scale(0.9);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes data-morph {
+  0% {
+    d: path("M0,100 C20,80 40,60 60,70 C80,80 100,90 120,85");
+  }
+  50% {
+    d: path("M0,100 C20,70 40,90 60,80 C80,70 100,60 120,75");
+  }
+  100% {
+    d: path("M0,100 C20,80 40,60 60,70 C80,80 100,90 120,85");
+  }
+}
+
+@keyframes loading-spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fade-in-staggered {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .network-node-pulse,
+  .network-edge-active,
+  .coalition-member-active,
+  .bid-marker-active,
+  .signal-path,
+  .match-line-unstable,
+  .vote-bar-winner,
+  .strategy-path-active {
+    animation: none !important;
+  }
+}

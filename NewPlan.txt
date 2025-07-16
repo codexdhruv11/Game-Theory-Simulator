@@ -1,0 +1,581 @@
+I have created the following plan after thorough exploration and analysis of the codebase. Follow the below plan verbatim. Trust the files and references. Do not re-verify what's written in the plan. Explore only when absolutely necessary. First implement all the proposed file changes and then I'll review all the changes together at the end. Make sure you fix all the linting, compilation or validation issues after successful implementation of the plan.
+
+### Observations
+
+The current Game Theory Simulator is a solid Next.js application with basic game theory concepts implemented using shadcn/ui components. It features a bento grid layout, theme switching, and IBM Plex Mono font. The existing simulations (Prisoner's Dilemma, Nash Equilibrium, Evolutionary Game) are functional but basic. The user wants to enhance this with more advanced game theory concepts, better graphical representations, and creative animations while maintaining the current tech stack and design principles.
+
+### Approach
+
+I'll enhance the existing Game Theory Simulator by adding 8 new advanced game theory concepts with rich visualizations and animations. The plan includes implementing interactive network games, cooperative game theory with Shapley values, mechanism design, behavioral economics, signaling games, matching theory, voting systems, and repeated games. Each new component will feature sophisticated SVG-based visualizations, smooth animations using CSS transforms and transitions, and interactive elements that respond to user input in real-time. All enhancements will use only shadcn/ui components and maintain the IBM Plex Mono font while adding creative micro-interactions and visual feedback.
+
+### Reasoning
+
+I explored the current codebase structure by examining the package.json, main page components, layout configuration, and existing game theory implementations. I analyzed the component architecture, styling approach with Tailwind CSS, and the bento grid layout system. I reviewed the current simulations to understand the implementation patterns and identified opportunities for enhancement with more advanced concepts and visualizations.
+
+## Mermaid Diagram
+
+sequenceDiagram
+    participant User
+    participant MainApp
+    participant AdvancedComponents
+    participant GameLogic
+    participant Visualizations
+    participant Animations
+
+    User->>MainApp: Loads enhanced simulator
+    MainApp->>AdvancedComponents: Initialize 8 new game theory modules
+    AdvancedComponents->>GameLogic: Load advanced algorithms
+    GameLogic->>AdvancedComponents: Return calculation engines
+    AdvancedComponents->>Visualizations: Setup D3/SVG visualizations
+    Visualizations->>Animations: Initialize framer-motion effects
+    Animations->>AdvancedComponents: Ready for interactions
+    AdvancedComponents->>MainApp: Components ready
+    MainApp->>User: Display enhanced bento grid
+
+    User->>AdvancedComponents: Interact with Network Game
+    AdvancedComponents->>GameLogic: Calculate network equilibria
+    GameLogic->>Visualizations: Update network data
+    Visualizations->>Animations: Trigger node animations
+    Animations->>User: Show animated strategy spread
+
+    User->>AdvancedComponents: Adjust mechanism parameters
+    AdvancedComponents->>GameLogic: Recalculate auction outcomes
+    GameLogic->>Visualizations: Update revenue charts
+    Visualizations->>Animations: Animate value transitions
+    Animations->>User: Display smooth data changes
+
+    User->>AdvancedComponents: Run evolutionary simulation
+    AdvancedComponents->>GameLogic: Process population dynamics
+    GameLogic->>Visualizations: Generate 3D landscape
+    Visualizations->>Animations: Create particle effects
+    Animations->>User: Show evolving strategies
+
+## Proposed File Changes
+
+### package.json(MODIFY)
+
+Add new dependencies for enhanced visualizations and animations:
+- `d3` and `@types/d3` for advanced data visualizations and SVG manipulations
+- `framer-motion` for smooth animations and micro-interactions
+- `react-use` for utility hooks like useInterval, useLocalStorage
+- `recharts` as a backup charting library for simpler visualizations
+- `@radix-ui/react-slider` for parameter controls
+- `@radix-ui/react-tabs` for organizing complex simulations
+- `@radix-ui/react-tooltip` for enhanced user guidance
+- `@radix-ui/react-progress` for simulation progress indicators
+
+These additions will enable sophisticated visualizations while maintaining the shadcn/ui ecosystem.
+
+### components\ui\slider.tsx(NEW)
+
+References: 
+
+- lib\utils.ts
+
+Create a shadcn/ui Slider component using `@radix-ui/react-slider` as the base. This component will be used extensively across all new simulations for parameter controls like population sizes, learning rates, discount factors, and other game theory variables. Include proper TypeScript types, theme-aware styling, and smooth value transitions. The slider should support both single and range values with customizable step sizes and visual indicators.
+
+### components\ui\tabs.tsx(NEW)
+
+References: 
+
+- lib\utils.ts
+
+Create a shadcn/ui Tabs component using `@radix-ui/react-tabs` for organizing complex simulations with multiple views. This will be used in advanced simulations like Network Games and Mechanism Design where users need to switch between different perspectives (e.g., network view, payoff analysis, strategy comparison). Include smooth transitions between tabs and proper keyboard navigation support.
+
+### components\ui\tooltip.tsx(NEW)
+
+References: 
+
+- lib\utils.ts
+
+Create a shadcn/ui Tooltip component using `@radix-ui/react-tooltip` for providing contextual help and explanations throughout the advanced simulations. This will be crucial for explaining complex game theory concepts, showing formula details, and providing interactive guidance. Include proper positioning, theme-aware styling, and smooth fade animations.
+
+### components\ui\progress.tsx(NEW)
+
+References: 
+
+- lib\utils.ts
+
+Create a shadcn/ui Progress component using `@radix-ui/react-progress` for showing simulation progress, convergence indicators, and animated value changes. This will be used in evolutionary simulations, iterative algorithms, and time-based games. Include smooth animations and customizable colors for different types of progress indicators.
+
+### lib\visualization-utils.ts(NEW)
+
+References: 
+
+- lib\utils.ts
+
+Create utility functions for D3.js-based visualizations that integrate seamlessly with the shadcn/ui theme system. Include functions for:
+- Converting Tailwind CSS color tokens to D3-compatible formats
+- Creating responsive SVG containers that adapt to card sizes
+- Generating smooth transition animations for data changes
+- Helper functions for common graph layouts (force-directed, circular, hierarchical)
+- Utility functions for creating interactive legends and axis labels
+- Functions for handling mouse/touch interactions in SVG elements
+
+All utilities should respect the current theme and provide consistent styling across visualizations.
+
+### lib\animation-utils.ts(NEW)
+
+References: 
+
+- lib\utils.ts
+
+Create utility functions and custom hooks for managing complex animations across the application. Include:
+- Custom hooks for orchestrating multi-step animations
+- Utility functions for creating staggered animations in lists and grids
+- Helper functions for creating physics-based animations (spring, bounce)
+- Functions for managing animation queues and sequences
+- Utilities for creating particle-like effects using CSS transforms
+- Helper functions for animating number changes with easing
+- Functions for creating morphing transitions between different states
+
+All animations should respect `prefers-reduced-motion` and integrate with the theme system.
+
+### lib\game-logic\network-games.ts(NEW)
+
+Implement comprehensive network game theory logic including:
+- Graph generation algorithms (random, small-world, scale-free networks)
+- Coordination game calculations on networks with local and global equilibria
+- Contagion models for strategy adoption and information spread
+- Network formation games with link creation/deletion costs
+- Centrality measures (degree, betweenness, closeness) and their game-theoretic implications
+- Best response dynamics on networks with asynchronous updates
+- Functions for calculating network efficiency and social welfare
+- Algorithms for finding stable network configurations
+
+Include TypeScript interfaces for network structures, player strategies, and game outcomes.
+
+### lib\game-logic\cooperative-games.ts(NEW)
+
+Implement cooperative game theory algorithms including:
+- Shapley value calculations for any number of players with efficient algorithms
+- Core solution concept with linear programming for feasibility checking
+- Nucleolus calculation for unique solution selection
+- Coalition formation algorithms with stability analysis
+- Voting power indices (Shapley-Shubik, Banzhaf) for weighted voting games
+- Cost allocation methods for shared resources and public goods
+- Bargaining solutions (Nash, Kalai-Smorodinsky) with graphical representations
+- Functions for analyzing coalition structures and their stability
+
+Include comprehensive TypeScript types for coalitions, characteristic functions, and solution concepts.
+
+### lib\game-logic\mechanism-design.ts(NEW)
+
+Implement mechanism design and auction theory algorithms including:
+- Vickrey-Clarke-Groves (VCG) mechanism with truthful bidding analysis
+- Multiple auction formats (English, Dutch, sealed-bid first-price, second-price)
+- Revenue equivalence theorem demonstrations with comparative analysis
+- Optimal auction design with reserve prices and bidder asymmetries
+- Matching mechanisms (Gale-Shapley algorithm) for two-sided markets
+- Mechanism design for public goods with free-rider problem solutions
+- Implementation theory with incentive compatibility and individual rationality
+- Functions for analyzing mechanism efficiency and revenue optimization
+
+Include TypeScript interfaces for mechanisms, bidder types, and allocation outcomes.
+
+### lib\game-logic\behavioral-games.ts(NEW)
+
+Implement behavioral game theory models including:
+- Quantal response equilibrium with logit and probit specifications
+- Level-k thinking models with iterative reasoning processes
+- Prospect theory integration with loss aversion and probability weighting
+- Social preference models (inequality aversion, reciprocity, altruism)
+- Learning models (reinforcement learning, belief learning, experience-weighted attraction)
+- Bounded rationality models with cognitive limitations and satisficing
+- Evolutionary stable strategies with mutation and drift
+- Functions for simulating human-like decision making with noise and biases
+
+Include comprehensive modeling of psychological factors and their game-theoretic implications.
+
+### lib\game-logic\signaling-games.ts(NEW)
+
+Implement signaling game theory including:
+- Perfect Bayesian equilibrium calculations for signaling games
+- Separating and pooling equilibrium analysis with welfare comparisons
+- Spence job market signaling model with education as a signal
+- Cheap talk games with credible communication analysis
+- Reputation models with repeated interactions and learning
+- Market signaling with quality uncertainty and consumer learning
+- Multi-dimensional signaling with complex type spaces
+- Functions for analyzing information transmission and equilibrium refinements
+
+Include TypeScript interfaces for signal types, belief systems, and equilibrium concepts.
+
+### lib\game-logic\repeated-games.ts(NEW)
+
+Implement repeated game theory including:
+- Folk theorem analysis with trigger strategies and punishment phases
+- Reputation effects in repeated games with incomplete information
+- Strategy evolution in repeated prisoner's dilemma tournaments
+- Discount factor analysis and its impact on cooperation sustainability
+- Finite vs infinite horizon games with end-game effects
+- Implementation of classic strategies (Tit-for-Tat, Generous Tit-for-Tat, Pavlov)
+- Multi-player repeated games with coalition formation and stability
+- Functions for analyzing long-term cooperation and defection patterns
+
+Include comprehensive strategy libraries and tournament simulation capabilities.
+
+### components\advanced\network-game.tsx(NEW)
+
+References: 
+
+- components\ui\card.tsx
+- components\ui\button.tsx
+- components\ui\slider.tsx(NEW)
+- components\ui\tabs.tsx(NEW)
+- lib\game-logic\network-games.ts(NEW)
+- lib\visualization-utils.ts(NEW)
+
+Create an advanced Network Game component featuring:
+- Interactive network visualization using D3.js force-directed layout with draggable nodes
+- Real-time strategy updates with smooth node color transitions based on player choices
+- Multiple network topologies (random, small-world, scale-free) with animated transitions between them
+- Coordination game mechanics with local interaction effects and global equilibrium analysis
+- Interactive controls for network parameters (size, connectivity, rewiring probability)
+- Animated contagion spread visualization showing strategy adoption over time
+- Side panel with network statistics (clustering coefficient, path length, centrality measures)
+- Play/pause controls for automatic strategy updates with customizable speed
+
+Use `framer-motion` for smooth transitions and `d3` for network layout calculations. Integrate with shadcn/ui Tabs for different views (Network, Statistics, Strategy Analysis).
+
+### components\advanced\cooperative-game.tsx(NEW)
+
+References: 
+
+- components\ui\card.tsx
+- components\ui\button.tsx
+- components\ui\tabs.tsx(NEW)
+- components\ui\tooltip.tsx(NEW)
+- lib\game-logic\cooperative-games.ts(NEW)
+- lib\visualization-utils.ts(NEW)
+
+Create a Cooperative Game Theory component featuring:
+- Interactive coalition formation with drag-and-drop player grouping
+- Real-time Shapley value calculations with animated bar charts showing value distribution
+- Core visualization using geometric representations for 3-player games
+- Coalition structure analysis with stability indicators and animated transitions
+- Interactive characteristic function editor with immediate payoff updates
+- Voting power analysis with visual representation of player influence
+- Animated explanations of solution concepts with step-by-step calculations
+- Comparison mode showing different solution concepts side-by-side
+
+Use `recharts` for bar charts and pie charts, `framer-motion` for coalition animations, and custom SVG for geometric core representations.
+
+### components\advanced\mechanism-design.tsx(NEW)
+
+References: 
+
+- components\ui\card.tsx
+- components\ui\button.tsx
+- components\ui\slider.tsx(NEW)
+- components\ui\tabs.tsx(NEW)
+- lib\game-logic\mechanism-design.ts(NEW)
+- lib\visualization-utils.ts(NEW)
+
+Create a Mechanism Design component featuring:
+- Interactive auction simulator with multiple bidder types and animated bidding processes
+- Real-time revenue comparison between different auction formats
+- VCG mechanism demonstration with truthful bidding analysis and animated explanations
+- Matching market simulator with preference revelation and stable matching visualization
+- Interactive mechanism designer where users can create custom rules and see outcomes
+- Animated explanations of incentive compatibility and individual rationality
+- Revenue optimization tools with graphical analysis of optimal reserve prices
+- Efficiency vs revenue trade-off visualizations with interactive parameter controls
+
+Use `d3` for complex auction visualizations, `recharts` for revenue analysis, and `framer-motion` for bidding animations.
+
+### components\advanced\behavioral-game.tsx(NEW)
+
+References: 
+
+- components\ui\card.tsx
+- components\ui\button.tsx
+- components\ui\slider.tsx(NEW)
+- components\ui\progress.tsx(NEW)
+- lib\game-logic\behavioral-games.ts(NEW)
+- lib\visualization-utils.ts(NEW)
+
+Create a Behavioral Game Theory component featuring:
+- Quantal response equilibrium visualization with probability distributions and animated convergence
+- Level-k thinking simulator with step-by-step reasoning process visualization
+- Prospect theory demonstration with animated value and probability weighting functions
+- Social preference experiments with real-time behavioral pattern analysis
+- Learning dynamics visualization showing strategy evolution over time
+- Bounded rationality simulator with cognitive load effects and decision time analysis
+- Interactive experiments comparing rational vs behavioral predictions
+- Animated explanations of psychological biases and their game-theoretic implications
+
+Use `d3` for probability distributions, `recharts` for learning curves, and `framer-motion` for cognitive process animations.
+
+### components\advanced\signaling-game.tsx(NEW)
+
+References: 
+
+- components\ui\card.tsx
+- components\ui\button.tsx
+- components\ui\slider.tsx(NEW)
+- components\ui\tabs.tsx(NEW)
+- lib\game-logic\signaling-games.ts(NEW)
+- lib\visualization-utils.ts(NEW)
+
+Create a Signaling Game component featuring:
+- Interactive signaling model with animated information transmission
+- Separating vs pooling equilibrium visualization with smooth transitions between equilibrium types
+- Job market signaling simulator with education investment decisions and animated career outcomes
+- Belief updating visualization showing how receivers learn from signals
+- Cheap talk game with credibility analysis and animated communication breakdown
+- Multi-dimensional signaling with complex type spaces and interactive signal design
+- Welfare analysis comparing different equilibrium outcomes with animated efficiency measures
+- Interactive reputation building with long-term relationship dynamics
+
+Use `d3` for belief space visualizations, custom SVG for signal transmission animations, and `framer-motion` for equilibrium transitions.
+
+### components\advanced\matching-theory.tsx(NEW)
+
+References: 
+
+- components\ui\card.tsx
+- components\ui\button.tsx
+- components\ui\tabs.tsx(NEW)
+- components\ui\tooltip.tsx(NEW)
+- lib\game-logic\mechanism-design.ts(NEW)
+- lib\visualization-utils.ts(NEW)
+
+Create a Matching Theory component featuring:
+- Interactive two-sided matching with drag-and-drop preference setting
+- Gale-Shapley algorithm visualization with step-by-step animated execution
+- Stability analysis with blocking pair detection and animated explanations
+- School choice mechanism comparison with strategy-proofness analysis
+- Kidney exchange visualization with animated chain and cycle detection
+- Market design experiments with different matching rules and outcome comparisons
+- Preference manipulation detection with animated strategy revelation
+- Efficiency vs fairness trade-off analysis with interactive parameter controls
+
+Use custom SVG for matching visualizations, `framer-motion` for algorithm animations, and `d3` for complex network structures in kidney exchange.
+
+### components\advanced\voting-theory.tsx(NEW)
+
+References: 
+
+- components\ui\card.tsx
+- components\ui\button.tsx
+- components\ui\slider.tsx(NEW)
+- components\ui\tabs.tsx(NEW)
+- lib\game-logic\cooperative-games.ts(NEW)
+- lib\visualization-utils.ts(NEW)
+
+Create a Voting Theory component featuring:
+- Interactive voting system comparison with multiple voting rules (plurality, Borda, Condorcet)
+- Arrow's impossibility theorem demonstration with animated examples of each axiom violation
+- Strategic voting analysis with animated best response calculations
+- Voting power visualization using Shapley-Shubik and Banzhaf indices
+- Gerrymandering simulator with interactive district drawing and outcome analysis
+- Preference aggregation with animated social choice function demonstrations
+- Median voter theorem visualization with animated policy convergence
+- Interactive constitution designer with trade-off analysis between different democratic principles
+
+Use `recharts` for voting outcome analysis, custom SVG for district maps, and `framer-motion` for preference aggregation animations.
+
+### components\advanced\repeated-game.tsx(NEW)
+
+References: 
+
+- components\ui\card.tsx
+- components\ui\button.tsx
+- components\ui\slider.tsx(NEW)
+- components\ui\progress.tsx(NEW)
+- lib\game-logic\repeated-games.ts(NEW)
+- lib\visualization-utils.ts(NEW)
+
+Create an enhanced Repeated Game component featuring:
+- Interactive strategy tournament with multiple AI strategies competing simultaneously
+- Real-time reputation tracking with animated trust/distrust indicators
+- Folk theorem visualization showing the relationship between discount factors and cooperation
+- Strategy evolution over time with animated population dynamics and mutation effects
+- Interactive strategy designer where users can create custom conditional strategies
+- Finite vs infinite horizon comparison with animated end-game effect analysis
+- Trigger strategy demonstration with punishment phase visualization
+- Multi-player repeated games with coalition formation and animated alliance dynamics
+
+Use `recharts` for strategy performance analysis, `d3` for population dynamics, and `framer-motion` for reputation and trust animations.
+
+### components\enhanced\enhanced-prisoners-dilemma.tsx(NEW)
+
+References: 
+
+- components\prisoners-dilemma.tsx
+- components\ui\card.tsx
+- components\ui\button.tsx
+- components\ui\tabs.tsx(NEW)
+- lib\visualization-utils.ts(NEW)
+
+Create an enhanced version of the existing Prisoner's Dilemma with advanced features:
+- 3D animated payoff matrix with rotating perspectives and smooth transitions
+- Real-time strategy analysis with animated best response calculations
+- Multiple AI opponents with different personality types and animated decision-making processes
+- Tournament mode with bracket-style competition and animated match progressions
+- Psychological profiling of player behavior with animated personality indicators
+- Interactive payoff matrix editor with immediate equilibrium recalculation
+- Social dilemma variations (public goods, tragedy of commons) with animated resource depletion
+- Advanced statistics dashboard with animated charts showing cooperation rates and trends
+
+This enhances the existing `components/prisoners-dilemma.tsx` with sophisticated visualizations while maintaining the core functionality.
+
+### components\enhanced\enhanced-evolutionary-game.tsx(NEW)
+
+References: 
+
+- components\evolutionary-game.tsx
+- components\ui\card.tsx
+- components\ui\slider.tsx(NEW)
+- components\ui\progress.tsx(NEW)
+- lib\visualization-utils.ts(NEW)
+
+Create an enhanced version of the existing Evolutionary Game with advanced features:
+- 3D population landscape visualization with animated fitness peaks and valleys
+- Multiple species evolution with predator-prey dynamics and animated ecosystem interactions
+- Spatial evolution on 2D grids with animated strategy diffusion and clustering
+- Interactive mutation controls with real-time genetic drift visualization
+- Group selection vs individual selection comparison with animated multi-level dynamics
+- Cultural evolution simulator with animated meme transmission and social learning
+- Adaptive landscape visualization showing evolutionary trajectories and animated path dependencies
+- Advanced population genetics with animated allele frequency changes and Hardy-Weinberg equilibrium
+
+This enhances the existing `components/evolutionary-game.tsx` with sophisticated 3D visualizations and complex evolutionary dynamics.
+
+### app\page.tsx(MODIFY)
+
+References: 
+
+- components\bento-layout.tsx
+- components\advanced\network-game.tsx(NEW)
+- components\advanced\cooperative-game.tsx(NEW)
+- components\advanced\mechanism-design.tsx(NEW)
+- components\advanced\behavioral-game.tsx(NEW)
+- components\advanced\signaling-game.tsx(NEW)
+- components\advanced\matching-theory.tsx(NEW)
+- components\advanced\voting-theory.tsx(NEW)
+- components\advanced\repeated-game.tsx(NEW)
+- components\enhanced\enhanced-prisoners-dilemma.tsx(NEW)
+- components\enhanced\enhanced-evolutionary-game.tsx(NEW)
+
+Enhance the main page to include all new advanced game theory components in the bento grid layout. Add the following new BentoItem components:
+
+- Network Game (spanning 2 columns) with description about coordination on networks
+- Cooperative Game Theory (spanning 1 column) featuring Shapley values and coalition formation
+- Mechanism Design (spanning 2 columns) with auction theory and matching markets
+- Behavioral Game Theory (spanning 1 column) with bounded rationality and learning
+- Signaling Games (spanning 1 column) with information transmission and reputation
+- Matching Theory (spanning 1 column) with two-sided markets and stability
+- Voting Theory (spanning 2 columns) with social choice and democratic mechanisms
+- Repeated Games (spanning 2 columns) with long-term cooperation and reputation
+- Enhanced Prisoner's Dilemma (replacing the existing one, spanning 2 columns)
+- Enhanced Evolutionary Game (replacing the existing one, spanning 3 columns)
+
+Reorganize the grid layout to accommodate the new components while maintaining visual balance and responsive design. Update imports to include all new components.
+
+### app\globals.css(MODIFY)
+
+References: 
+
+- tailwind.config.js(MODIFY)
+
+Enhance the global CSS with advanced animation keyframes and custom properties for the new visualizations:
+
+- Add keyframes for particle effects, network node pulsing, and strategy transitions
+- Include CSS custom properties for D3.js color integration with theme variables
+- Add smooth transition classes for complex state changes and morphing animations
+- Include utility classes for 3D transforms and perspective effects
+- Add animation classes for staggered list animations and cascade effects
+- Include hover effect classes for interactive elements with micro-interactions
+- Add loading animation keyframes for data processing and calculation states
+- Include accessibility-friendly animation classes that respect prefers-reduced-motion
+
+Ensure all new animations integrate seamlessly with the existing IBM Plex Mono font and shadcn/ui theme system.
+
+### tailwind.config.js(MODIFY)
+
+References: 
+
+- app\globals.css(MODIFY)
+
+Extend the Tailwind configuration to support the new advanced visualizations and animations:
+
+- Add new animation keyframes for particle effects, network animations, strategy transitions, and data morphing
+- Include custom spacing values for complex grid layouts and visualization containers
+- Add new color variants for different game theory concepts (cooperation, defection, equilibrium, instability)
+- Include custom box-shadow utilities for depth effects in 3D visualizations
+- Add transform utilities for advanced animations and interactive elements
+- Include custom transition timing functions for smooth, natural-feeling animations
+- Add backdrop-blur utilities for overlay effects and modal interactions
+- Include custom gradient utilities for data visualization backgrounds
+
+Ensure all additions maintain compatibility with the existing shadcn/ui theme system and IBM Plex Mono font configuration.
+
+### components\ui\animated-counter.tsx(NEW)
+
+References: 
+
+- lib\utils.ts
+- lib\animation-utils.ts(NEW)
+
+Create a reusable AnimatedCounter component for smoothly animating number changes throughout the application. This component will be used extensively in score displays, population counts, payoff calculations, and statistical updates. Features should include:
+- Smooth number transitions with customizable easing functions
+- Support for different number formats (integers, decimals, percentages, currency)
+- Configurable animation duration and delay
+- Optional prefix and suffix support
+- Integration with the theme system for consistent styling
+- Accessibility support with proper ARIA labels
+
+This component will be used across all game theory simulations for consistent animated feedback.
+
+### components\ui\interactive-matrix.tsx(NEW)
+
+References: 
+
+- lib\utils.ts
+- lib\visualization-utils.ts(NEW)
+- components\ui\tooltip.tsx(NEW)
+
+Create a reusable InteractiveMatrix component for displaying and editing game theory payoff matrices with advanced features:
+- Editable cells with real-time validation and immediate visual feedback
+- Animated highlighting of Nash equilibria and dominant strategies
+- Support for different matrix sizes (2x2, 3x3, NxM) with responsive layouts
+- Color-coded payoffs with smooth transitions between different color schemes
+- Interactive hover effects showing best responses and strategy analysis
+- Export/import functionality for saving and loading custom games
+- Animated explanations of matrix concepts with step-by-step highlighting
+
+This component will be used across multiple simulations for consistent matrix interactions.
+
+### components\ui\strategy-selector.tsx(NEW)
+
+References: 
+
+- lib\utils.ts
+- components\ui\card.tsx
+- components\ui\tooltip.tsx(NEW)
+- components\ui\tabs.tsx(NEW)
+
+Create a reusable StrategySelector component for choosing and configuring different game theory strategies:
+- Visual strategy cards with animated previews of strategy behavior
+- Interactive strategy builder for creating custom conditional strategies
+- Strategy comparison mode with side-by-side performance analysis
+- Animated strategy explanations with visual decision trees
+- Preset strategy library with classic game theory strategies
+- Real-time strategy validation and conflict detection
+- Integration with tooltip system for detailed strategy descriptions
+
+This component will provide consistent strategy selection across all simulations.
+
+### components\advanced(NEW)
+
+Create a directory for advanced game theory components that implement sophisticated concepts beyond the basic simulations.
+
+### components\enhanced(NEW)
+
+Create a directory for enhanced versions of existing components with advanced visualizations and features.
+
+### lib\game-logic(NEW)
+
+Create a directory for game theory logic and algorithms that will power the advanced simulations.

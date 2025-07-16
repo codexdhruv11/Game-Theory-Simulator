@@ -1,0 +1,245 @@
+I have created the following plan after thorough exploration and analysis of the codebase. Follow the below plan verbatim. Trust the files and references. Do not re-verify what's written in the plan. Explore only when absolutely necessary. First implement all the proposed file changes and then I'll review all the changes together at the end. Make sure you fix all the linting, compilation or validation issues after successful implementation of the plan.
+
+### Observations
+
+I need to create a comprehensive plan for a game theory simulator frontend application. The project requires a modern React-based setup with shadcn/ui components, IBM Plex Mono font, theme switching capabilities, and a responsive bento layout. Since this is a new project in an empty directory, I'll structure it as a Next.js application with TypeScript for optimal development experience and performance.
+
+### Approach
+
+I'll create a Next.js application with TypeScript as the foundation, integrating shadcn/ui for components, implementing three distinct themes with a theme switcher, and building interactive game theory simulations including Prisoner's Dilemma, Nash Equilibrium calculator, and other classic game theory scenarios. The layout will use a responsive bento grid that adapts from multi-column on desktop to single-column on mobile, with IBM Plex Mono as the primary font for a technical, academic aesthetic.
+
+### Reasoning
+
+I analyzed the empty project directory and researched the requirements for shadcn/ui setup, game theory simulator examples, responsive bento layouts, and IBM Plex Mono font implementation. Based on this research, I determined that a Next.js application with TypeScript would be the optimal foundation for this frontend-only game theory simulator.
+
+## Mermaid Diagram
+
+sequenceDiagram
+    participant User
+    participant App
+    participant ThemeProvider
+    participant GameComponents
+    participant GameLogic
+
+    User->>App: Loads application
+    App->>ThemeProvider: Initialize theme context
+    ThemeProvider->>App: Provide theme state
+    App->>User: Display bento grid layout
+
+    User->>App: Select game simulation
+    App->>GameComponents: Load specific game component
+    GameComponents->>GameLogic: Initialize game state
+    GameLogic->>GameComponents: Return initial state
+    GameComponents->>User: Display interactive interface
+
+    User->>GameComponents: Make game choices
+    GameComponents->>GameLogic: Process game logic
+    GameLogic->>GameComponents: Return results
+    GameComponents->>User: Update visualization
+
+    User->>ThemeProvider: Toggle theme
+    ThemeProvider->>App: Update theme state
+    App->>User: Apply new theme styles
+
+## Proposed File Changes
+
+### package.json(NEW)
+
+Create the main package.json file for the Next.js application with all necessary dependencies including Next.js, React, TypeScript, Tailwind CSS, shadcn/ui dependencies (class-variance-authority, clsx, tailwind-merge, lucide-react, tailwindcss-animate), and development dependencies for a complete game theory simulator setup.
+
+### next.config.js(NEW)
+
+Configure Next.js with TypeScript support and any necessary optimizations for the game theory simulator application.
+
+### tailwind.config.ts(NEW)
+
+Set up Tailwind CSS configuration with shadcn/ui integration, custom color variables for the three themes, IBM Plex Mono font family configuration, and responsive breakpoints for the bento layout. Include CSS variables for theme switching and ensure proper mobile responsiveness.
+
+### tsconfig.json(NEW)
+
+Configure TypeScript with Next.js settings, path aliases for clean imports (especially for components and utilities), and strict type checking for better development experience.
+
+### components.json(NEW)
+
+Create shadcn/ui configuration file specifying the component style, TypeScript usage, Tailwind CSS paths, and component directory structure for consistent UI component management.
+
+### app(NEW)
+
+Create the main app directory for Next.js 13+ app router structure.
+
+### app\globals.css(NEW)
+
+Set up global CSS with Tailwind directives, IBM Plex Mono font imports from Google Fonts, CSS custom properties for the three themes (light, dark, and a custom academic theme), and base styling for the game theory simulator interface.
+
+### app\layout.tsx(NEW)
+
+References: 
+
+- app\globals.css(NEW)
+
+Create the root layout component with HTML structure, IBM Plex Mono font configuration, theme provider setup, and responsive meta tags. Include the theme provider wrapper and ensure proper font loading for the entire application.
+
+### app\page.tsx(NEW)
+
+References: 
+
+- components\ui\card.tsx(NEW)
+- components\theme-toggle.tsx(NEW)
+
+Create the main homepage with a responsive bento grid layout showcasing different game theory simulations. Include navigation cards for Prisoner's Dilemma, Nash Equilibrium Calculator, Evolutionary Game Theory, and other simulations. Implement the bento layout that becomes single-column on mobile using Tailwind CSS grid classes.
+
+### app\prisoners-dilemma\page.tsx(NEW)
+
+References: 
+
+- components\ui\button.tsx(NEW)
+- components\ui\card.tsx(NEW)
+- components\game-theory\prisoners-dilemma.tsx(NEW)
+
+Create an interactive Prisoner's Dilemma simulation page with game matrix display, strategy selection, multiple rounds capability, and results visualization. Include payoff calculations and strategy analysis using shadcn/ui components.
+
+### app\nash-equilibrium\page.tsx(NEW)
+
+References: 
+
+- components\ui\input.tsx(NEW)
+- components\ui\button.tsx(NEW)
+- components\game-theory\nash-calculator.tsx(NEW)
+
+Create a Nash Equilibrium calculator page where users can input custom game matrices and find equilibrium points. Include interactive matrix input, calculation algorithms, and visual representation of equilibrium strategies.
+
+### app\evolutionary-games\page.tsx(NEW)
+
+References: 
+
+- components\ui\slider.tsx(NEW)
+- components\game-theory\evolutionary-simulation.tsx(NEW)
+
+Create an evolutionary game theory simulation page with population dynamics, strategy evolution over time, and visualization of how different strategies perform in populations. Include charts and interactive parameters.
+
+### components(NEW)
+
+Create the components directory for organizing React components.
+
+### components\ui(NEW)
+
+Create the UI components directory for shadcn/ui components.
+
+### components\ui\button.tsx(NEW)
+
+References: 
+
+- lib\utils.ts(NEW)
+
+Create the shadcn/ui Button component with proper TypeScript types, variant styles, and theme-aware styling for use throughout the game theory simulator.
+
+### components\ui\card.tsx(NEW)
+
+References: 
+
+- lib\utils.ts(NEW)
+
+Create the shadcn/ui Card component with header, content, and footer sections for displaying game theory scenarios and results in the bento layout.
+
+### components\ui\input.tsx(NEW)
+
+References: 
+
+- lib\utils.ts(NEW)
+
+Create the shadcn/ui Input component for user inputs in game matrices, payoff values, and simulation parameters.
+
+### components\ui\slider.tsx(NEW)
+
+References: 
+
+- lib\utils.ts(NEW)
+
+Create the shadcn/ui Slider component for adjusting simulation parameters like population size, mutation rates, and other evolutionary game theory variables.
+
+### components\theme-toggle.tsx(NEW)
+
+References: 
+
+- components\ui\button.tsx(NEW)
+- lib\theme-context.tsx(NEW)
+
+Create a theme toggle component that cycles between the three available themes (light, dark, and academic). Include proper icons and smooth transitions between themes using the theme context.
+
+### components\game-theory(NEW)
+
+Create a directory for game theory specific components.
+
+### components\game-theory\prisoners-dilemma.tsx(NEW)
+
+References: 
+
+- components\ui\button.tsx(NEW)
+- components\ui\card.tsx(NEW)
+- lib\game-logic\prisoners-dilemma.ts(NEW)
+
+Create an interactive Prisoner's Dilemma component with game matrix display, strategy selection buttons, round-by-round gameplay, score tracking, and strategy analysis. Include visual feedback for cooperation/defection choices and cumulative results.
+
+### components\game-theory\nash-calculator.tsx(NEW)
+
+References: 
+
+- components\ui\input.tsx(NEW)
+- components\ui\button.tsx(NEW)
+- lib\game-logic\nash-equilibrium.ts(NEW)
+
+Create a Nash Equilibrium calculator component with dynamic matrix input fields, calculation triggers, and visual display of equilibrium points. Include support for 2x2 and larger matrices with clear result presentation.
+
+### components\game-theory\evolutionary-simulation.tsx(NEW)
+
+References: 
+
+- components\ui\slider.tsx(NEW)
+- components\ui\button.tsx(NEW)
+- lib\game-logic\evolutionary-games.ts(NEW)
+
+Create an evolutionary game theory simulation component with population visualization, strategy distribution charts, parameter controls, and time-based evolution display. Include play/pause controls and real-time updates.
+
+### lib(NEW)
+
+Create the lib directory for utility functions and business logic.
+
+### lib\utils.ts(NEW)
+
+Create utility functions including the cn() helper for className merging (required by shadcn/ui), formatting functions for game theory calculations, and other common utilities used throughout the application.
+
+### lib\theme-context.tsx(NEW)
+
+Create a React context for theme management with three themes (light, dark, academic), theme switching logic, and persistence using localStorage. Include TypeScript types and proper context provider setup.
+
+### lib\game-logic(NEW)
+
+Create a directory for game theory calculation logic and algorithms.
+
+### lib\game-logic\prisoners-dilemma.ts(NEW)
+
+Implement Prisoner's Dilemma game logic including payoff calculations, strategy definitions (cooperate/defect), multi-round gameplay, and various AI strategies (tit-for-tat, always cooperate, always defect, random). Include TypeScript interfaces for game states and results.
+
+### lib\game-logic\nash-equilibrium.ts(NEW)
+
+Implement Nash Equilibrium calculation algorithms for finding pure and mixed strategy equilibria in game matrices. Include functions for best response analysis, equilibrium detection, and mathematical calculations with proper TypeScript typing.
+
+### lib\game-logic\evolutionary-games.ts(NEW)
+
+Implement evolutionary game theory simulation logic including population dynamics, replicator equations, strategy fitness calculations, and evolution over time. Include functions for different selection mechanisms and mutation processes.
+
+### public(NEW)
+
+Create the public directory for static assets.
+
+### public\favicon.ico(NEW)
+
+Add a favicon for the game theory simulator application with a mathematical or game theory themed icon.
+
+### .gitignore(NEW)
+
+Create a comprehensive .gitignore file for Next.js projects including node_modules, .next build directory, environment files, IDE files, and other common exclusions for a clean repository.
+
+### README.md(NEW)
+
+Create a comprehensive README with project description, setup instructions, features overview, and usage guide for the Game Theory Simulator. Include information about the three themes, responsive design, and available simulations.
