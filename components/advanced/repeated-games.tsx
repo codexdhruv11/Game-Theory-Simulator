@@ -7,8 +7,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Slider } from "@/components/ui/slider"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-// Commented out due to missing exports
-/*
 import {
   playRepeatedGame,
   runTournament,
@@ -20,17 +18,6 @@ import {
   type RepeatedGameResult,
   type Tournament
 } from "@/lib/game-theory/repeated-games"
-*/
-
-// Mock types for development
-type Strategy = any;
-type RepeatedGameResult = any;
-type Tournament = any;
-const strategies = [
-  { name: 'Tit for Tat', description: 'Cooperates on first move, then copies opponent\'s last move' },
-  { name: 'Always Defect', description: 'Always defects regardless of opponent\'s moves' },
-  { name: 'Always Cooperate', description: 'Always cooperates regardless of opponent\'s moves' }
-];
 
 export function RepeatedGames() {
   const [selectedStrategy1, setSelectedStrategy1] = useState<Strategy>(strategies[2]) // Tit for Tat
