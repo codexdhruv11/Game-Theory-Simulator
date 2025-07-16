@@ -4,6 +4,7 @@ import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import { SuppressHydrationWarning } from '@/components/suppress-hydration-warning'
 import { RemoveBisAttribute } from '@/components/remove-bis-attribute'
+import { AuthProvider } from '@/contexts/AuthContext'
 
 const ibmPlexMono = IBM_Plex_Mono({
   subsets: ['latin'],
@@ -30,10 +31,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <RemoveBisAttribute />
-          <SuppressHydrationWarning>
-            {children}
-          </SuppressHydrationWarning>
+          <AuthProvider>
+            <RemoveBisAttribute />
+            <SuppressHydrationWarning>
+              {children}
+            </SuppressHydrationWarning>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
