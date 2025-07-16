@@ -7,8 +7,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Slider } from "@/components/ui/slider"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-// Commented out due to missing exports
-/*
 import {
   createJobMarketSignalingModel,
   findSeparatingEquilibria,
@@ -18,12 +16,6 @@ import {
   type SignalingEquilibrium,
   type PlayerType
 } from "@/lib/game-theory/signaling-games"
-*/
-
-// Mock types for development
-type SignalingGame = any;
-type SignalingEquilibrium = any;
-type PlayerType = any;
 
 export function SignalingGame() {
   const [selectedGame, setSelectedGame] = useState<'job-market' | 'reputation' | 'custom'>('job-market')
