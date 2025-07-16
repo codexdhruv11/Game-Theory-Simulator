@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Moon, Sun, Palette } from "lucide-react"
+import { Moon, Sun, Palette, Monitor, Check } from "lucide-react"
 import { useTheme } from "next-themes"
 
 import { Button } from "@/components/ui/button"
@@ -13,7 +13,15 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 export function ThemeSwitcher() {
-  const { setTheme } = useTheme()
+  const { theme, setTheme } = useTheme()
+  
+  const themes = [
+    { name: "light", label: "Light", icon: Sun },
+    { name: "dark", label: "Dark", icon: Moon },
+    { name: "system", label: "System", icon: Monitor },
+    { name: "theme-academic", label: "Academic", icon: Palette },
+    { name: "theme-neon", label: "Neon", icon: Palette },
+  ]
 
   return (
     <DropdownMenu>
@@ -25,22 +33,25 @@ export function ThemeSwitcher() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")} data-testid="theme-light">
-          <Sun className="mr-2 h-4 w-4" />
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")} data-testid="theme-dark">
-          <Moon className="mr-2 h-4 w-4" />
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("theme-academic")} data-testid="theme-academic">
-          <Palette className="mr-2 h-4 w-4" />
-          Academic
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("theme-neon")} data-testid="theme-neon">
-          <Palette className="mr-2 h-4 w-4" />
-          Neon
-        </DropdownMenuItem>
+        {themes.map((themeOption) => {
+          const Icon = themeOption.icon
+          const isActive = theme === themeOption.name
+          
+          return (
+            <DropdownMenuItem 
+              key={themeOption.name}
+              onClick={() => setTheme(themeOption.name)} 
+              data-testid={`theme-${themeOption.name}`}
+              className="flex items-center justify-between"
+            >
+              <div className="flex items-center">
+                <Icon className="mr-2 h-4 w-4" />
+                {themeOption.label}
+              </div>
+              {isActive && <Check className="h-4 w-4 ml-2" />}
+            </DropdownMenuItem>
+          )
+        })}
       </DropdownMenuContent>
     </DropdownMenu>
   )
