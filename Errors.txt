@@ -1,0 +1,42 @@
+PS C:\Users\dhruv\Documents\VS-CODE\Game-Theory-Simulator> npm run dev:full
+
+> game-theory-simulator@0.1.0 dev:full
+> concurrently "npm run dev" "npm run dev:backend"
+
+[0] 
+[0] > game-theory-simulator@0.1.0 dev
+[0] > next dev
+[0]
+[1]
+[1] > game-theory-simulator@0.1.0 dev:backend
+[1] > cd backend && npm run dev
+[1]
+[1] 
+[1] > game-theory-simulator-backend@1.0.0 dev
+[1] > nodemon src/server.ts
+[1]
+[1] [nodemon] 3.1.10
+[1] [nodemon] to restart at any time, enter `rs`
+[1] [nodemon] watching path(s): *.*
+[1] [nodemon] watching extensions: ts,json
+[1] [nodemon] starting `ts-node src/server.ts`
+[0]    ▲ Next.js 14.0.0
+[0]    - Local:        http://localhost:3000
+[0]    - Environments: .env.local
+[0]
+[0]  ✓ Ready in 3s
+[1] ✅ Connected to MongoDB: game-theory-simulator
+[1] Error: listen EADDRINUSE: address already in use :::3001
+[1]     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+[1]     at listenInCluster (node:net:1965:12)
+[1]     at Server.listen (node:net:2067:7)
+[1]     at Function.listen (C:\Users\dhruv\Documents\VS-CODE\Game-Theory-Simulator\backend\node_modules\express\lib\application.js:635:24)
+[1]     at startServer (C:\Users\dhruv\Documents\VS-CODE\Game-Theory-Simulator\backend\src\server.ts:75:9)
+[1]     at processTicksAndRejections (node:internal/process/task_queues:95:5) {
+[1]   code: 'EADDRINUSE',
+[1]   errno: -4091,
+[1]   syscall: 'listen',
+[1]   address: '::',
+[1]   port: 3001
+[1] }
+[1] [nodemon] app crashed - waiting for file changes before starting...
