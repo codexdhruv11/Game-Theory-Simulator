@@ -67,17 +67,29 @@ web_modules/
 # Yarn Integrity file
 .yarn-integrity
 
-# Environment variables
+# Environment variables - CRITICAL: Never commit these files
 .env
 .env*.local
 .env.development.local
 .env.test.local
 .env.production.local
+.env.staging
+.env.production
+
+# Backend environment files - CRITICAL: Contains JWT secrets and database credentials
 backend/.env
 backend/.env.local
 backend/.env.development.local
 backend/.env.test.local
 backend/.env.production.local
+backend/.env.staging
+backend/.env.production
+
+# Frontend environment files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
