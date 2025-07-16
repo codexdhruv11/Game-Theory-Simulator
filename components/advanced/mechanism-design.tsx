@@ -21,6 +21,15 @@ import {
 type AuctionMechanism = any;
 type AuctionResult = any;
 
+// Temporary placeholder function for missing generateOptimalBids
+const generateOptimalBids = (mechanism: AuctionMechanism) => 
+  mechanism.bidders.map((bidder: any) => ({
+    ...bidder,
+    bid: mechanism.type === 'second-price' 
+      ? bidder.valuation // Truth-telling in second-price
+      : bidder.valuation * (0.7 + Math.random() * 0.2) // Strategic bidding in first-price
+  }));
+
 export function MechanismDesign() {
   const [mechanism, setMechanism] = useState<AuctionMechanism>({
     type: 'first-price',
@@ -45,6 +54,19 @@ export function MechanismDesign() {
   useEffect(() => {
     generateBids()
   }, [generateBids])
+
+  const runAuction = (mechanism: AuctionMechanism) => {
+    const winner = mechanism.bidders.reduce((prev: any, current: any) => 
+      (current.bid > prev.bid) ? current : prev
+    );
+    return {
+      winner: winner.name,
+      winningBid: winner.bid,
+      revenue: winner.bid,
+      efficiency: winner.valuation / Math.max(...mechanism.bidders.map((b: any) => b.valuation)),
+      mechanism: mechanism.type
+    };
+  };
 
   const runSingleAuction = () => {
     const result = runAuction(mechanism)
