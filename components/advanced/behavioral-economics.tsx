@@ -6,8 +6,6 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Slider } from "@/components/ui/slider"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-// Commented out due to missing exports
-/*
 import {
   calculateUtility,
   calculateProspectValue,
@@ -20,24 +18,6 @@ import {
   type Prospect,
   type UltimatumGame
 } from "@/lib/game-theory/behavioral-economics"
-*/
-
-// Mock types for development
-type BehavioralAgent = any;
-type Prospect = any;
-type UltimatumGame = any;
-
-// Mock implementations
-const generateRandomAgents = (count: number) => {
-  return Array(count).fill(null).map((_, i) => ({
-    id: `agent-${i}`,
-    name: `Agent ${i+1}`,
-    riskAversion: Math.random(),
-    lossAversion: Math.random() * 2 + 1,
-    fairnessPreference: Math.random(),
-    discountFactor: Math.random() * 0.5 + 0.5
-  }));
-};
 
 const simulateUltimatumGame = (proposer: any, responder: any, amount: number) => {
   return {
