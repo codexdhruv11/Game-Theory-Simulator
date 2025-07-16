@@ -45,12 +45,24 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const checkAuthStatus = async () => {
     try {
-      const response = await api.getCurrentUser()
-      if (response.data?.user) {
-        setUser(response.data.user)
+      // Only check auth if we have a token
+      const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null
+      if (!token) {
+        setIsLoading(false)
+        return
+      }
+      
+      const response = await api.auth.me()
+      if (response.user) {
+        setUser(response.user)
       }
     } catch (error) {
       console.error('Auth check failed:', error)
+      // Clear invalid tokens
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('accessToken')
+        localStorage.removeItem('refreshToken')
+      }
     } finally {
       setIsLoading(false)
     }
@@ -59,11 +71,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const login = async (email: string, password: string) => {
     try {
       setIsLoading(true)
-      const response = await api.login(email, password)
+      const response = await api.auth.login({ email, password })
       
-      if (response.data?.user && response.data?.tokens) {
-        api.setTokens(response.data.tokens)
-        setUser(response.data.user)
+      if (response.user && response.tokens) {
+        api.setTokens(response.tokens)
+        setUser(response.user)
         return { success: true }
       } else {
         return { 
@@ -89,11 +101,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }) => {
     try {
       setIsLoading(true)
-      const response = await api.register(userData)
+      const response = await api.auth.register(userData)
       
-      if (response.data?.user && response.data?.tokens) {
-        api.setTokens(response.data.tokens)
-        setUser(response.data.user)
+      if (response.user && response.tokens) {
+        api.setTokens(response.tokens)
+        setUser(response.user)
         return { success: true }
       } else {
         return { 
@@ -114,11 +126,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const loginAsGuest = async (username?: string) => {
     try {
       setIsLoading(true)
-      const response = await api.loginAsGuest(username)
+      const response = await api.auth.loginGuest({ username })
       
-      if (response.data?.user && response.data?.tokens) {
-        api.setTokens(response.data.tokens)
-        setUser(response.data.user)
+      if (response.user && response.tokens) {
+        api.setTokens(response.tokens)
+        setUser(response.user)
         return { success: true }
       } else {
         return { 
@@ -138,7 +150,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const logout = async () => {
     try {
-      await api.logout()
+      await api.auth.logout()
     } catch (error) {
       console.error('Logout error:', error)
     } finally {
@@ -149,9 +161,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const refreshUser = async () => {
     try {
-      const response = await api.getCurrentUser()
-      if (response.data?.user) {
-        setUser(response.data.user)
+      const response = await api.auth.me()
+      if (response.user) {
+        setUser(response.user)
       }
     } catch (error) {
       console.error('Failed to refresh user:', error)
