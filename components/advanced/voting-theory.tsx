@@ -6,8 +6,6 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-// Commented out due to missing exports
-/*
 import {
   pluralityVoting,
   condorcetVoting,
@@ -19,12 +17,6 @@ import {
   type Voter,
   type VotingResult
 } from "@/lib/game-theory/voting-theory"
-*/
-
-// Mock types for development
-type Candidate = any;
-type Voter = any;
-type VotingResult = any;
 
 export function VotingTheory() {
   const [voters, setVoters] = useState<Voter[]>([])
