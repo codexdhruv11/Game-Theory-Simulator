@@ -7,13 +7,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { 
   calculateShapleyValues,
-  createSampleCooperativeGame,
+  // createSampleCooperativeGame,
   generateAllCoalitions,
-  getCoalitionValue,
+  // getCoalitionValue,
   type CooperativeGame,
   type Player,
   type Coalition
 } from "@/lib/game-theory/cooperative-games"
+
+// Temporary placeholder functions
+const createSampleCooperativeGame = () => ({ players: [], coalitionValues: new Map() });
+const getCoalitionValue = (game: CooperativeGame, coalition: Coalition) => 0;
 
 export function CooperativeGame() {
   const [game, setGame] = useState<CooperativeGame | null>(null)
