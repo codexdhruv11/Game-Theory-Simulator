@@ -1,9 +1,9 @@
 import { Response } from 'express';
 import { validationResult } from 'express-validator';
-import { asyncHandler } from '@/middleware/errorHandler';
-import { AuthenticatedRequest } from '@/middleware/auth';
-import { StatisticsService } from '@/services/statistics';
-import { GameSession } from '@/models/GameSession';
+import { asyncHandler } from '../middleware/errorHandler';
+import { AuthenticatedRequest } from '../middleware/auth';
+import { StatisticsService } from '../services/statistics';
+import { GameSession } from '../models/GameSession';
 
 export const getUserProfile = asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   if (!req.user) {
