@@ -14,39 +14,6 @@ import {
   type Player,
   type Coalition
 } from "@/lib/game-theory/cooperative-games"
-      { id: 'C', name: 'Player C', contribution: 15 }
-    ],
-    grandCoalitionValue: 100
-  };
-};
-
-const calculateShapleyValues = (game: CooperativeGame) => {
-  const result: Record<string, number> = {};
-  game.players.forEach((player: any) => {
-    result[player.id] = player.contribution / 
-      game.players.reduce((sum: number, p: any) => sum + p.contribution, 0) * game.grandCoalitionValue;
-  });
-  return result;
-};
-
-const generateAllCoalitions = (playerIds: string[]) => {
-  const result: string[][] = [[]];
-  for (const id of playerIds) {
-    const newCoalitions = result.map(coalition => [...coalition, id]);
-    result.push(...newCoalitions);
-  }
-  return result;
-};
-
-const getCoalitionValue = (coalition: string[], game: CooperativeGame) => {
-  if (coalition.length === 0) return 0;
-  if (coalition.length === game.players.length) return game.grandCoalitionValue;
-  
-  return coalition.reduce((sum: number, playerId: string) => {
-    const player = game.players.find((p: any) => p.id === playerId);
-    return sum + (player ? player.contribution : 0);
-  }, 0);
-};
 
 export function CooperativeGame() {
   const [game, setGame] = useState<CooperativeGame | null>(null)
