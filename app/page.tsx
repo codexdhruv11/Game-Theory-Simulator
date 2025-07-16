@@ -1,34 +1,28 @@
 import { BentoLayout, BentoItem } from "@/components/bento-layout"
-import { ThemeSwitcher } from "@/components/theme-switcher"
 import { NashEquilibrium } from "@/components/nash-equilibrium"
 import { GameTheoryIntro } from "@/components/game-theory-intro"
 import { ZeroSumGame } from "@/components/zero-sum-game"
 import { AuctionSimulator } from "@/components/auction-simulator"
+import { AuthenticatedLayout } from "@/components/layout/authenticated-layout"
 
 // Enhanced components
 import { EnhancedPrisonersDilemma } from "@/components/enhanced/enhanced-prisoners-dilemma"
 import { EnhancedEvolutionaryGame } from "@/components/enhanced/enhanced-evolutionary-game"
 
-// Advanced components - temporarily commented out due to missing exports
-// import { NetworkGame } from "@/components/advanced/network-game"
-// import { CooperativeGame } from "@/components/advanced/cooperative-game"
-// import { MechanismDesign } from "@/components/advanced/mechanism-design"
-// import { BehavioralEconomics } from "@/components/advanced/behavioral-economics"
-// import { SignalingGame } from "@/components/advanced/signaling-game"
-// import { MatchingTheory } from "@/components/advanced/matching-theory"
-// import { VotingTheory } from "@/components/advanced/voting-theory"
-// import { RepeatedGames } from "@/components/advanced/repeated-games"
+// Advanced components
+import { NetworkGame } from "@/components/advanced/network-game"
+import { CooperativeGame } from "@/components/advanced/cooperative-game"
+import { MechanismDesign } from "@/components/advanced/mechanism-design"
+import { BehavioralEconomics } from "@/components/advanced/behavioral-economics"
+import { SignalingGame } from "@/components/advanced/signaling-game"
+import { MatchingTheory } from "@/components/advanced/matching-theory"
+import { VotingTheory } from "@/components/advanced/voting-theory"
+import { RepeatedGames } from "@/components/advanced/repeated-games"
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background" suppressHydrationWarning data-testid="main-content">
-      <header className="flex justify-between items-center p-6 border-b" suppressHydrationWarning data-testid="main-header">
-        <div suppressHydrationWarning>
-          <h1 className="text-3xl font-bold">Game Theory Simulator</h1>
-          <p className="text-muted-foreground">Interactive simulations and analysis</p>
-        </div>
-        <ThemeSwitcher />
-      </header>
+    <AuthenticatedLayout>
+      <main className="min-h-screen bg-background" suppressHydrationWarning data-testid="main-content">
       
       <BentoLayout>
         <BentoItem
@@ -63,7 +57,6 @@ export default function Home() {
           <ZeroSumGame />
         </BentoItem>
         
-        {/* Advanced components temporarily commented out
         <BentoItem
           title="Network Game"
           description="Coordination on complex networks"
@@ -127,7 +120,6 @@ export default function Home() {
         >
           <RepeatedGames />
         </BentoItem>
-        */}
         
         <BentoItem
           title="Auction Theory"
@@ -145,6 +137,7 @@ export default function Home() {
           <EnhancedEvolutionaryGame />
         </BentoItem>
       </BentoLayout>
-    </main>
+      </main>
+    </AuthenticatedLayout>
   )
 }
