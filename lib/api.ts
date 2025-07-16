@@ -1,5 +1,58 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'
 
+// Type definitions
+export interface User {
+  _id: string
+  username: string
+  email?: string
+  isGuest: boolean
+  profile: {
+    displayName: string
+    avatar?: string
+    bio?: string
+    favoritePhilosopher?: string
+    joinDate: string
+    lastActive: string
+  }
+  gameStats: {
+    totalGamesPlayed: number
+    totalScore: number
+    winRate: number
+    favoriteGame?: string
+    achievements: string[]
+  }
+  moralAlignment: {
+    utilitarian: number
+    deontological: number
+    virtue: number
+    contractual: number
+    care: number
+    lastUpdated: string
+  }
+  preferences: {
+    theme: string
+    notifications: boolean
+    privacy: {
+      showProfile: boolean
+      showStats: boolean
+      showAlignment: boolean
+    }
+  }
+  progress: {
+    level: number
+    experience: number
+    unlockedFeatures: string[]
+    completedTutorials: string[]
+  }
+  createdAt: string
+  updatedAt: string
+}
+
+export interface AuthTokens {
+  accessToken: string
+  refreshToken: string
+}
+
 class ApiError extends Error {
   constructor(public status: number, message: string) {
     super(message)
