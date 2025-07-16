@@ -19,29 +19,6 @@ import {
   type UltimatumGame
 } from "@/lib/game-theory/behavioral-economics"
 
-const simulateUltimatumGame = (proposer: any, responder: any, amount: number) => {
-  return {
-    proposer: proposer.id,
-    responder: responder.id,
-    totalAmount: amount,
-    offer: Math.floor(amount * proposer.fairnessPreference),
-    accepted: true
-  };
-};
-
-const simulateDictatorGame = (dictator: any, amount: number) => {
-  return Math.floor(amount * dictator.fairnessPreference);
-};
-
-const simulatePublicGoodsGame = (agents: any[], endowment: number, multiplier: number) => {
-  return agents.map(() => Math.floor(Math.random() * endowment));
-};
-
-const calculateProspectValue = (agent: any, prospect: any) => {
-  return prospect.outcomes.reduce((sum: number, outcome: number, i: number) => 
-    sum + outcome * prospect.probabilities[i], 0);
-};
-
 export function BehavioralEconomics() {
   const [selectedExperiment, setSelectedExperiment] = useState<'ultimatum' | 'dictator' | 'public-goods' | 'prospect'>('ultimatum')
   const [agents, setAgents] = useState<BehavioralAgent[]>([])
