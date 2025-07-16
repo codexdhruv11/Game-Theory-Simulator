@@ -158,8 +158,8 @@ export function NetworkGame() {
                   {network.nodes.map((node, index) => (
                     <motion.g key={node.id}>
                       <motion.circle
-                        cx={node.position.x}
-                        cy={node.position.y}
+                        cx={node.position?.x || (50 + (index % 5) * 80)}
+                        cy={node.position?.y || (50 + Math.floor(index / 5) * 80)}
                         r="15"
                         fill={node.strategy === 'cooperate' ? '#3b82f6' : '#ef4444'}
                         stroke="currentColor"
@@ -175,14 +175,14 @@ export function NetworkGame() {
                         whileHover={{ scale: 1.2 }}
                       />
                       <motion.text
-                        x={node.position.x}
-                        y={node.position.y + 4}
+                        x={node.position?.x || (50 + (index % 5) * 80)}
+                        y={(node.position?.y || (50 + Math.floor(index / 5) * 80)) + 4}
                         textAnchor="middle"
                         fontSize="10"
                         fill="white"
                         fontWeight="bold"
                       >
-                        {node.payoff.toFixed(0)}
+                        {node.payoff?.toFixed(0) || '0'}
                       </motion.text>
                     </motion.g>
                   ))}
@@ -218,7 +218,7 @@ export function NetworkGame() {
             <div className="flex justify-between">
               <span>Average Payoff:</span>
               <span className="font-mono">
-                {network ? (network.nodes.reduce((sum, n) => sum + n.payoff, 0) / network.nodes.length).toFixed(1) : '0'}
+                {network ? (network.nodes.reduce((sum, n) => sum + (n.payoff || 0), 0) / network.nodes.length).toFixed(1) : '0'}
               </span>
             </div>
             <div className="flex justify-between">
