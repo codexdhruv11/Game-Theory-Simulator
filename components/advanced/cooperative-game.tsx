@@ -5,8 +5,6 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-// Commented out due to missing exports
-/*
 import { 
   calculateShapleyValues,
   createSampleCooperativeGame,
@@ -16,19 +14,6 @@ import {
   type Player,
   type Coalition
 } from "@/lib/game-theory/cooperative-games"
-*/
-
-// Mock types for development
-type CooperativeGame = any;
-type Player = any;
-type Coalition = any;
-
-// Mock implementations
-const createSampleCooperativeGame = () => {
-  return {
-    players: [
-      { id: 'A', name: 'Player A', contribution: 10 },
-      { id: 'B', name: 'Player B', contribution: 20 },
       { id: 'C', name: 'Player C', contribution: 15 }
     ],
     grandCoalitionValue: 100
