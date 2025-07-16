@@ -24,7 +24,18 @@ const calculateProspectValue = (prospect: Prospect) => 0;
 const simulateUltimatumGame = (proposer: BehavioralAgent, responder: BehavioralAgent, amount: number) => ({ offer: 0, accepted: false, proposer, responder });
 const simulateDictatorGame = (dictator: BehavioralAgent, amount: number) => 0;
 const simulatePublicGoodsGame = (agents: BehavioralAgent[], multiplier: number) => [0];
-const createBehavioralAgent = (type: string, risk: number, fairness: number, reciprocity: number) => ({ type, risk, fairness, reciprocity });
+const createBehavioralAgent = (type: string, risk: number, fairness: number, reciprocity: number) => ({ 
+  type, 
+  risk, 
+  fairness, 
+  reciprocity,
+  name: `Agent ${Math.floor(Math.random() * 100)}`,
+  riskAversion: risk,
+  fairnessPreference: fairness,
+  reciprocityTendency: reciprocity,
+  lossAversion: risk * 1.5 + Math.random() * 0.5, // Loss aversion typically higher than risk aversion
+  altruism: fairness * 0.8 + Math.random() * 0.4
+});
 const generateRandomAgents = (count: number) => Array(count).fill(null).map(() => createBehavioralAgent('random', 0.5, 0.5, 0.5));
 type UltimatumGame = { offer: number; accepted: boolean; proposer: BehavioralAgent; responder: BehavioralAgent };
 
@@ -106,15 +117,15 @@ export function BehavioralEconomics() {
                   <div className="space-y-2">
                     <div className="font-medium text-sm">Proposer: {agents[0].name}</div>
                     <div className="text-xs space-y-1">
-                      <div>Risk Aversion: {agents[0].riskAversion.toFixed(2)}</div>
-                      <div>Fairness: {agents[0].fairnessPreference.toFixed(2)}</div>
+                      <div>Risk Aversion: {agents[0]?.riskAversion?.toFixed(2) || 'N/A'}</div>
+                      <div>Fairness: {agents[0]?.fairnessPreference?.toFixed(2) || 'N/A'}</div>
                     </div>
                   </div>
                   <div className="space-y-2">
                     <div className="font-medium text-sm">Responder: {agents[1].name}</div>
                     <div className="text-xs space-y-1">
-                      <div>Loss Aversion: {agents[1].lossAversion.toFixed(2)}</div>
-                      <div>Fairness: {agents[1].fairnessPreference.toFixed(2)}</div>
+                      <div>Loss Aversion: {agents[1]?.lossAversion?.toFixed(2) || 'N/A'}</div>
+                      <div>Fairness: {agents[1]?.fairnessPreference?.toFixed(2) || 'N/A'}</div>
                     </div>
                   </div>
                 </div>
