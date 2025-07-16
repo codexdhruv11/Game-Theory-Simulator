@@ -17,6 +17,36 @@ import {
   type PlayerType
 } from "@/lib/game-theory/signaling-games"
 
+// Temporary placeholder functions for missing methods
+const calculateSeparatingEquilibrium = () => ({
+  highTypeSignal: 2,
+  lowTypeSignal: 0,
+  beliefs: { high: 1, low: 0 },
+  payoffs: { high: 8, low: 6 },
+  highEducation: 2.5,
+  lowEducation: 0
+});
+
+const calculatePoolingEquilibrium = () => ({
+  signal: 1,
+  beliefs: { high: 0.5, low: 0.5 },
+  payoffs: { high: 7, low: 7 },
+  education: 1.2
+});
+
+const educationCost = (signal: number, type: string) => {
+  return type === 'high' ? signal * 0.5 : signal * 1.0;
+};
+
+const simulateReputationGame = (rounds: number) => {
+  return Array.from({ length: rounds }, (_, i) => ({
+    round: i + 1,
+    quality: Math.random() > 0.5 ? 'high' as const : 'low' as const,
+    price: 50 + Math.random() * 50,
+    reputation: Math.max(0, Math.min(1, 0.5 + (Math.random() - 0.5) * 0.4))
+  }));
+};
+
 export function SignalingGame() {
   const [selectedGame, setSelectedGame] = useState<'job-market' | 'reputation' | 'custom'>('job-market')
   const [jobMarket, setJobMarket] = useState<SignalingGame | null>(null)
@@ -47,8 +77,8 @@ export function SignalingGame() {
   const separatingEq = calculateSeparatingEquilibrium()
   const poolingEq = calculatePoolingEquilibrium()
 
-  const signalCostHigh = educationCost(signalLevel[0], 'high')
-  const signalCostLow = educationCost(signalLevel[0], 'low')
+  const signalCostHigh = educationCost(signalLevel[0] || 0, 'high')
+  const signalCostLow = educationCost(signalLevel[0] || 0, 'low')
 
   const chartData = reputationHistory.map(round => ({
     round: round.round,
@@ -148,30 +178,32 @@ export function SignalingGame() {
                   <div className="grid grid-cols-2 gap-4 text-xs">
                     <div>
                       <div className="font-medium">High-Productivity Workers:</div>
-                      <div>{jobMarket.workers.filter(w => w.productivity === 'high').length}</div>
+                      <div>{jobMarket.workers?.filter(w => w.productivity === 'high').length || 0}</div>
                     </div>
                     <div>
                       <div className="font-medium">Low-Productivity Workers:</div>
-                      <div>{jobMarket.workers.filter(w => w.productivity === 'low').length}</div>
+                      <div>{jobMarket.workers?.filter(w => w.productivity === 'low').length || 0}</div>
                     </div>
                     <div>
                       <div className="font-medium">Average Education (High):</div>
                       <div>
-                        {(jobMarket.workers
-                          .filter(w => w.productivity === 'high')
-                          .reduce((sum, w) => sum + w.education, 0) / 
-                          jobMarket.workers.filter(w => w.productivity === 'high').length || 0
-                        ).toFixed(1)} years
+                        {jobMarket.workers?.length > 0 ? (
+                          jobMarket.workers
+                            .filter(w => w.productivity === 'high')
+                            .reduce((sum, w) => sum + (w.education || 0), 0) / 
+                            (jobMarket.workers.filter(w => w.productivity === 'high').length || 1)
+                        ).toFixed(1) : '0.0'} years
                       </div>
                     </div>
                     <div>
                       <div className="font-medium">Average Education (Low):</div>
                       <div>
-                        {(jobMarket.workers
-                          .filter(w => w.productivity === 'low')
-                          .reduce((sum, w) => sum + w.education, 0) / 
-                          jobMarket.workers.filter(w => w.productivity === 'low').length || 0
-                        ).toFixed(1)} years
+                        {jobMarket.workers?.length > 0 ? (
+                          jobMarket.workers
+                            .filter(w => w.productivity === 'low')
+                            .reduce((sum, w) => sum + (w.education || 0), 0) / 
+                            (jobMarket.workers.filter(w => w.productivity === 'low').length || 1)
+                        ).toFixed(1) : '0.0'} years
                       </div>
                     </div>
                   </div>
