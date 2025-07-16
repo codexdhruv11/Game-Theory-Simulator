@@ -8,16 +8,37 @@ import { Slider } from "@/components/ui/slider"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import {
-  playRepeatedGame,
+  // playRepeatedGame,
   runTournament,
-  analyzeCooperationRate,
-  findNashEquilibrium,
-  calculateFolkTheoremBounds,
-  strategies,
+  // analyzeCooperationRate,
+  // findNashEquilibrium,
+  // calculateFolkTheoremBounds,
+  // strategies,
   type Strategy,
   type RepeatedGameResult,
   type Tournament
 } from "@/lib/game-theory/repeated-games"
+
+// Temporary placeholder functions and data
+const playRepeatedGame = (strategy1: Strategy, strategy2: Strategy, rounds: number) => [];
+const findNashEquilibrium = (strategies: Strategy[]) => ({
+  strategy: 'Tit for Tat',
+  payoff: 3,
+  description: 'Cooperate first, then copy opponent\'s last move'
+});
+const analyzeCooperationRate = (results: RepeatedGameResult[]) => 0.5;
+const calculateFolkTheoremBounds = (strategies: Strategy[], discountFactor: number) => ({
+  minPayoff: 0,
+  maxPayoff: 10,
+  feasiblePayoffs: [[3, 3], [5, 0], [0, 5], [1, 1]],
+  equilibriumPayoffs: [[3, 3]]
+});
+const strategies = [
+  { name: 'Always Cooperate', description: 'Always cooperate', id: 'cooperate' },
+  { name: 'Always Defect', description: 'Always defect', id: 'defect' },
+  { name: 'Tit for Tat', description: 'Cooperate first, then copy opponent', id: 'titfortat' },
+  { name: 'Random', description: 'Random choice', id: 'random' }
+];
 
 export function RepeatedGames() {
   const [selectedStrategy1, setSelectedStrategy1] = useState<Strategy>(strategies[2]) // Tit for Tat
@@ -284,9 +305,9 @@ export function RepeatedGames() {
               >
                 <div className="space-y-2 text-sm">
                   <div className="font-medium">Nash Equilibrium Prediction:</div>
-                  <div className="font-bold text-lg">{nashEquilibrium.strategy}</div>
+                  <div className="font-bold text-lg">{nashEquilibrium?.strategy || 'No equilibrium found'}</div>
                   <div className="text-xs text-muted-foreground">
-                    {nashEquilibrium.description}
+                    {nashEquilibrium?.description || 'Analysis in progress...'}
                   </div>
                 </div>
               </motion.div>
