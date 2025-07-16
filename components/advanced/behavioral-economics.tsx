@@ -8,16 +8,25 @@ import { Slider } from "@/components/ui/slider"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   calculateUtility,
-  calculateProspectValue,
-  simulateUltimatumGame,
-  simulateDictatorGame,
-  simulatePublicGoodsGame,
-  createBehavioralAgent,
-  generateRandomAgents,
+  // calculateProspectValue,
+  // simulateUltimatumGame,
+  // simulateDictatorGame,
+  // simulatePublicGoodsGame,
+  // createBehavioralAgent,
+  // generateRandomAgents,
   type BehavioralAgent,
   type Prospect,
-  type UltimatumGame
+  // type UltimatumGame
 } from "@/lib/game-theory/behavioral-economics"
+
+// Temporary placeholder functions until we implement the missing ones
+const calculateProspectValue = (prospect: Prospect) => 0;
+const simulateUltimatumGame = (proposer: BehavioralAgent, responder: BehavioralAgent, amount: number) => ({ offer: 0, accepted: false, proposer, responder });
+const simulateDictatorGame = (dictator: BehavioralAgent, amount: number) => 0;
+const simulatePublicGoodsGame = (agents: BehavioralAgent[], multiplier: number) => [0];
+const createBehavioralAgent = (type: string, risk: number, fairness: number, reciprocity: number) => ({ type, risk, fairness, reciprocity });
+const generateRandomAgents = (count: number) => Array(count).fill(null).map(() => createBehavioralAgent('random', 0.5, 0.5, 0.5));
+type UltimatumGame = { offer: number; accepted: boolean; proposer: BehavioralAgent; responder: BehavioralAgent };
 
 export function BehavioralEconomics() {
   const [selectedExperiment, setSelectedExperiment] = useState<'ultimatum' | 'dictator' | 'public-goods' | 'prospect'>('ultimatum')
