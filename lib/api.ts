@@ -210,3 +210,92 @@ export const moralApi = {
 }
 
 export { ApiError }
+
+// Export the api object
+export const api = {
+  // Auth endpoints
+  auth: {
+    register: (data: any) => apiRequest('/auth/register', { method: 'POST', body: JSON.stringify(data) }),
+    login: (data: any) => apiRequest('/auth/login', { method: 'POST', body: JSON.stringify(data) }),
+    loginGuest: (data?: any) => apiRequest('/auth/guest', { method: 'POST', body: JSON.stringify(data || {}) }),
+    refreshToken: (refreshToken: string) => apiRequest('/auth/refresh', { method: 'POST', body: JSON.stringify({ refreshToken }) }),
+    logout: () => apiRequest('/auth/logout', { method: 'POST' }),
+    me: () => apiRequest('/auth/me'),
+    convertGuest: (data: any) => apiRequest('/auth/convert-guest', { method: 'POST', body: JSON.stringify(data) }),
+  },
+
+  // User endpoints
+  users: {
+    getProfile: () => apiRequest('/users/profile'),
+    updateProfile: (data: any) => apiRequest('/users/profile', { method: 'PUT', body: JSON.stringify(data) }),
+    updatePreferences: (data: any) => apiRequest('/users/preferences', { method: 'PUT', body: JSON.stringify(data) }),
+    getProgress: () => apiRequest('/users/progress'),
+    getAchievements: () => apiRequest('/users/achievements'),
+    deleteAccount: () => apiRequest('/users/account', { method: 'DELETE' }),
+  },
+
+  // Game endpoints
+  games: {
+    startSession: (data: any) => apiRequest('/games/sessions', { method: 'POST', body: JSON.stringify(data) }),
+    submitRound: (sessionId: string, data: any) => apiRequest(`/games/sessions/${sessionId}/rounds`, { method: 'POST', body: JSON.stringify(data) }),
+    completeSession: (sessionId: string, data: any) => apiRequest(`/games/sessions/${sessionId}/complete`, { method: 'POST', body: JSON.stringify(data) }),
+    getSession: (sessionId: string) => apiRequest(`/games/sessions/${sessionId}`),
+    getHistory: (params?: any) => apiRequest(`/games/history${params ? '?' + new URLSearchParams(params).toString() : ''}`),
+    getStats: () => apiRequest('/games/stats'),
+  },
+
+  // Philosopher endpoints
+  philosophers: {
+    getAll: (params?: any) => apiRequest(`/philosophers${params ? '?' + new URLSearchParams(params).toString() : ''}`),
+    get: (slug: string) => apiRequest(`/philosophers/${slug}`),
+    getGuidance: (slug: string, params: any) => apiRequest(`/philosophers/${slug}/guidance?${new URLSearchParams(params).toString()}`),
+    rate: (slug: string, rating: number) => apiRequest(`/philosophers/${slug}/rate`, { method: 'POST', body: JSON.stringify({ rating }) }),
+  },
+
+  // Leaderboard endpoints
+  leaderboards: {
+    getGlobal: (params?: any) => apiRequest(`/leaderboards/global${params ? '?' + new URLSearchParams(params).toString() : ''}`),
+    getMyRanking: (params?: any) => apiRequest(`/leaderboards/my-ranking${params ? '?' + new URLSearchParams(params).toString() : ''}`),
+  },
+
+  // Statistics endpoints
+  statistics: {
+    getGlobal: () => apiRequest('/statistics/global'),
+  },
+
+  // Moral alignment endpoints
+  moral: {
+    getAlignment: () => apiRequest('/moral/alignment'),
+    getAnalysis: () => apiRequest('/moral/analysis'),
+  },
+
+  // Utility methods
+  get: (endpoint: string) => apiRequest(endpoint),
+  post: (endpoint: string, data: any) => apiRequest(endpoint, { method: 'POST', body: JSON.stringify(data) }),
+  put: (endpoint: string, data: any) => apiRequest(endpoint, { method: 'PUT', body: JSON.stringify(data) }),
+  delete: (endpoint: string) => apiRequest(endpoint, { method: 'DELETE' }),
+
+  // Token management methods
+  setTokens: (tokens: AuthTokens) => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('accessToken', tokens.accessToken)
+      if (tokens.refreshToken) {
+        localStorage.setItem('refreshToken', tokens.refreshToken)
+      }
+    }
+  },
+
+  clearTokens: () => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('accessToken')
+      localStorage.removeItem('refreshToken')
+    }
+  },
+
+  getAccessToken: () => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('accessToken')
+    }
+    return null
+  },
+}
