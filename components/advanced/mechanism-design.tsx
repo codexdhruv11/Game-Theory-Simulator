@@ -7,8 +7,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Slider } from "@/components/ui/slider"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-// Commented out due to missing exports
-/*
 import {
   runVCGMechanism,
   runSecondPriceAuction,
@@ -19,12 +17,7 @@ import {
   type Item,
   type AuctionOutcome
 } from "@/lib/game-theory/mechanism-design"
-*/
 
-// Mock types for development
-type Bidder = any;
-type Item = any;
-type AuctionOutcome = any;
 type AuctionMechanism = any;
 type AuctionResult = any;
 
