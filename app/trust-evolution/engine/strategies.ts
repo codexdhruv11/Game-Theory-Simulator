@@ -228,7 +228,89 @@ export const SIMPLETON: Strategy = {
   }
 }
 
-// All available strategies
+// SOFT_MAJORITY Strategy - Cooperates unless opponent defects more than 50% of the time
+export const SOFT_MAJORITY: Strategy = {
+  id: "soft_majority",
+  name: "Soft Majority",
+  description: "Cooperates unless opponent defects more than 50% of the time",
+  color: "#14b8a6",
+  isNice: true,
+  isProvokable: true,
+  isForgiving: true,
+  isClear: true,
+  getMove: (history, opponentHistory) => {
+    if (opponentHistory.length === 0) return "cooperate"
+    const defectionCount = opponentHistory.filter(move => move === "defect").length
+    const defectionRate = defectionCount / opponentHistory.length
+    return defectionRate <= 0.5 ? "cooperate" : "defect"
+  }
+}
+
+// HARD_MAJORITY Strategy - Defects unless opponent cooperates more than 50% of the time
+export const HARD_MAJORITY: Strategy = {
+  id: "hard_majority",
+  name: "Hard Majority",
+  description: "Defects unless opponent cooperates more than 50% of the time",
+  color: "#e11d48",
+  isNice: false,
+  isProvokable: true,
+  isForgiving: true,
+  isClear: true,
+  getMove: (history, opponentHistory) => {
+    if (opponentHistory.length === 0) return "defect"
+    const cooperationCount = opponentHistory.filter(move => move === "cooperate").length
+    const cooperationRate = cooperationCount / opponentHistory.length
+    return cooperationRate > 0.5 ? "cooperate" : "defect"
+  }
+}
+
+// ALTERNATE Strategy - Alternates between cooperate and defect regardless of opponent
+export const ALTERNATE: Strategy = {
+  id: "alternate",
+  name: "Alternate",
+  description: "Alternates between cooperate and defect regardless of opponent",
+  color: "#a855f7",
+  isNice: false,
+  isProvokable: false,
+  isForgiving: false,
+  isClear: true,
+  getMove: (history) => {
+    return history.length % 2 === 0 ? "cooperate" : "defect"
+  }
+}
+
+// SPITEFUL Strategy - Defects forever if opponent ever defects
+export const SPITEFUL: Strategy = {
+  id: "spiteful",
+  name: "Spiteful",
+  description: "Cooperates until opponent defects once, then always defects",
+  color: "#f43f5e",
+  isNice: true,
+  isProvokable: true,
+  isForgiving: false,
+  isClear: true,
+  getMove: (history, opponentHistory) => {
+    return opponentHistory.includes("defect") ? "defect" : "cooperate"
+  }
+}
+
+// REVERSE_TIT_FOR_TAT Strategy - Does opposite of opponent's last move
+export const REVERSE_TIT_FOR_TAT: Strategy = {
+  id: "reverse_tit_for_tat",
+  name: "Reverse Tit for Tat",
+  description: "Does opposite of opponent's last move. Starts with defect",
+  color: "#0ea5e9",
+  isNice: false,
+  isProvokable: true,
+  isForgiving: true,
+  isClear: true,
+  getMove: (history, opponentHistory) => {
+    if (opponentHistory.length === 0) return "defect"
+    return opponentHistory[opponentHistory.length - 1] === "cooperate" ? "defect" : "cooperate"
+  }
+}
+
+// Update the ALL_STRATEGIES array to include all five new strategies
 export const ALL_STRATEGIES: Strategy[] = [
   ALWAYS_COOPERATE,
   ALWAYS_DEFECT,
@@ -241,7 +323,12 @@ export const ALL_STRATEGIES: Strategy[] = [
   SUSPICIOUS_TIT_FOR_TAT,
   PROBER,
   COPYKITTEN,
-  SIMPLETON
+  SIMPLETON,
+  SOFT_MAJORITY,
+  HARD_MAJORITY,
+  ALTERNATE,
+  SPITEFUL,
+  REVERSE_TIT_FOR_TAT
 ]
 
 // Strategy categories for educational purposes
