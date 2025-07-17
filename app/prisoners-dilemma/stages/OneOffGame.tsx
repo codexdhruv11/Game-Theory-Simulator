@@ -6,11 +6,9 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { motion, AnimatePresence } from "framer-motion"
-import { Play, RotateCcw, CheckCircle, TrendingUp, HandRock, HandMetal, History, Award, AlertTriangle, Info, Lightbulb } from "lucide-react"
+import { Play, RotateCcw, CheckCircle, TrendingUp, ThumbsUp, ThumbsDown, History, Award, AlertTriangle, Info } from "lucide-react"
 import { AnimatedCounter } from "@/components/ui/animated-counter"
-import { GameStatsPanel } from "@/components/ui/game-stats-panel"
 import { useEntranceAnimation, createStaggeredDelays } from "@/lib/animation-utils"
-import { calculateGameStats, generateInsights } from "@/lib/prisoners-dilemma-utils"
 
 interface OneOffGameProps {
   onComplete: (data?: any) => void
@@ -39,8 +37,6 @@ export function OneOffGame({ onComplete, isCompleted }: OneOffGameProps) {
   const [showExplanation, setShowExplanation] = useState(false)
   const [gamesPlayed, setGamesPlayed] = useState(0)
   const [opponentStrategy, setOpponentStrategy] = useState<string | null>(null)
-  const [showInsights, setShowInsights] = useState(false)
-  const [insights, setInsights] = useState<string[]>([])
   const [headerRef, headerVisible] = useEntranceAnimation()
   const [gameRef, gameVisible] = useEntranceAnimation({ threshold: 0.1 })
   const [statsRef, statsVisible] = useEntranceAnimation({ threshold: 0.1 })
@@ -49,21 +45,10 @@ export function OneOffGame({ onComplete, isCompleted }: OneOffGameProps) {
   const staggerDelays = createStaggeredDelays(5, 100, 200)
 
   const opponentStrategies = [
-    { name: "Always Cooperate", move: "cooperate" as Move, description: "This opponent always cooperates no matter what" },
-    { name: "Always Defect", move: "defect" as Move, description: "This opponent always defects no matter what" },
-    { name: "Random", move: () => Math.random() < 0.5 ? "cooperate" as Move : "defect" as Move, description: "This opponent makes random choices" }
+    { name: "Always Cooperate", move: "cooperate" as Move },
+    { name: "Always Defect", move: "defect" as Move },
+    { name: "Random", move: () => Math.random() < 0.5 ? "cooperate" as Move : "defect" as Move }
   ]
-
-  // Update insights when game history changes
-  useEffect(() => {
-    if (gameHistory.length >= 3) {
-      const newInsights = generateInsights(gameHistory);
-      if (newInsights.length > 0) {
-        setInsights(newInsights);
-        setShowInsights(true);
-      }
-    }
-  }, [gameHistory]);
 
   const playGame = (selectedMove: Move) => {
     const opponent = opponentStrategies[Math.floor(Math.random() * opponentStrategies.length)]
@@ -96,8 +81,6 @@ export function OneOffGame({ onComplete, isCompleted }: OneOffGameProps) {
   const resetAll = () => {
     setGameHistory([])
     setGamesPlayed(0)
-    setInsights([])
-    setShowInsights(false)
     resetGame()
   }
 
@@ -117,22 +100,6 @@ export function OneOffGame({ onComplete, isCompleted }: OneOffGameProps) {
   const averageScore = gameHistory.length > 0 ? totalScore / gameHistory.length : 0
   const cooperationRate = gameHistory.length > 0 ? 
     gameHistory.filter(game => game.playerMove === "cooperate").length / gameHistory.length : 0
-  
-  // Generate game stats for the stats panel
-  const gameStats = [
-    { label: "Games", value: gamesPlayed, icon: Play },
-    { label: "Total Score", value: totalScore, icon: Award },
-    { label: "Avg. Score", value: averageScore, format: "decimal", decimalPlaces: 1, icon: TrendingUp },
-    { label: "Cooperation", value: cooperationRate * 100, format: "percentage", decimalPlaces: 0, icon: HandMetal }
-  ]
-  
-  // Generate game history items for the stats panel
-  const historyItems = gameHistory.slice(-5).reverse().map((game, index) => ({
-    label: `Round ${gamesPlayed - index}`,
-    value: `${game.playerScore} pts`,
-    secondaryValue: game.playerMove === "cooperate" ? "C" : "D",
-    highlight: index === 0
-  }))
   
   // Get outcome description
   const getOutcomeDescription = (result: GameResult) => {
@@ -161,7 +128,7 @@ export function OneOffGame({ onComplete, isCompleted }: OneOffGameProps) {
   }
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8">
+    <div className="max-w-4xl mx-auto space-y-8">
       {/* Instructions */}
       <motion.div
         ref={headerRef}
@@ -207,7 +174,7 @@ export function OneOffGame({ onComplete, isCompleted }: OneOffGameProps) {
           <Card className="h-full border-t-4 border-t-blue-500 shadow-md">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <HandMetal className="w-5 h-5" />
+                <ThumbsUp className="w-5 h-5" />
                 Make Your Choice
               </CardTitle>
             </CardHeader>
@@ -242,7 +209,7 @@ export function OneOffGame({ onComplete, isCompleted }: OneOffGameProps) {
                         className="h-28 flex flex-col gap-3 relative overflow-hidden group transition-all duration-300 hover:scale-105"
                       >
                         <div className={`absolute inset-0 bg-green-500/10 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 ${playerMove === "cooperate" ? "scale-x-100" : ""}`}></div>
-                        <HandMetal className="w-6 h-6" />
+                        <ThumbsUp className="w-6 h-6" />
                         <div className="flex flex-col gap-1 relative z-10">
                           <span className="text-xl font-bold">Cooperate</span>
                           <span className="text-sm opacity-75">Stay Silent</span>
@@ -255,7 +222,7 @@ export function OneOffGame({ onComplete, isCompleted }: OneOffGameProps) {
                         className="h-28 flex flex-col gap-3 relative overflow-hidden group transition-all duration-300 hover:scale-105"
                       >
                         <div className={`absolute inset-0 bg-red-500/10 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 ${playerMove === "defect" ? "scale-x-100" : ""}`}></div>
-                        <HandRock className="w-6 h-6" />
+                        <ThumbsDown className="w-6 h-6" />
                         <div className="flex flex-col gap-1 relative z-10">
                           <span className="text-xl font-bold">Defect</span>
                           <span className="text-sm opacity-75">Betray</span>
@@ -393,12 +360,97 @@ export function OneOffGame({ onComplete, isCompleted }: OneOffGameProps) {
           animate={statsVisible ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.5 }}
         >
-          <GameStatsPanel
-            title="Your Statistics"
-            stats={gameStats}
-            history={historyItems}
-            cardClassName="h-full shadow-md border-t-4 border-t-purple-500"
-          />
+          <Card className="h-full border-t-4 border-t-purple-500 shadow-md">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <TrendingUp className="w-5 h-5" />
+                Your Statistics
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-6">
+                <div className="grid grid-cols-2 gap-4">
+                  <motion.div 
+                    className="text-center p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: staggerDelays[0] / 1000 }}
+                  >
+                    <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">Games Played</div>
+                    <div className="text-2xl font-bold">
+                      <AnimatedCounter value={gamesPlayed} />
+                    </div>
+                  </motion.div>
+                  <motion.div 
+                    className="text-center p-3 rounded-lg bg-green-50 dark:bg-green-900/20"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: staggerDelays[1] / 1000 }}
+                  >
+                    <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">Total Score</div>
+                    <div className="text-2xl font-bold">
+                      <AnimatedCounter value={totalScore} />
+                    </div>
+                  </motion.div>
+                  <motion.div 
+                    className="text-center p-3 rounded-lg bg-amber-50 dark:bg-amber-900/20"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: staggerDelays[2] / 1000 }}
+                  >
+                    <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">Average Score</div>
+                    <div className="text-2xl font-bold">
+                      <AnimatedCounter value={averageScore} format="decimal" decimalPlaces={1} />
+                    </div>
+                  </motion.div>
+                  <motion.div 
+                    className="text-center p-3 rounded-lg bg-purple-50 dark:bg-purple-900/20"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: staggerDelays[3] / 1000 }}
+                  >
+                    <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">Cooperation</div>
+                    <div className="text-2xl font-bold">
+                      <AnimatedCounter 
+                        value={cooperationRate * 100} 
+                        format="percentage" 
+                        decimalPlaces={0} 
+                      />
+                    </div>
+                  </motion.div>
+                </div>
+                
+                {gameHistory.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: staggerDelays[4] / 1000 }}
+                  >
+                    <h4 className="font-semibold mb-2">Recent Games</h4>
+                    <div className="space-y-1 max-h-32 overflow-y-auto">
+                      {gameHistory.slice(-5).reverse().map((game, index) => (
+                        <motion.div 
+                          key={index} 
+                          className={`flex justify-between text-sm p-1 rounded ${index === 0 ? "bg-blue-50 dark:bg-blue-900/20" : ""}`}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.3, delay: index * 0.05 }}
+                        >
+                          <span>
+                            {game.playerMove === "cooperate" ? "C" : "D"} vs{" "}
+                            {game.opponentMove === "cooperate" ? "C" : "D"}
+                          </span>
+                          <span className="font-semibold">
+                            {game.playerScore} pts
+                          </span>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
         </motion.div>
       </div>
 
@@ -443,54 +495,6 @@ export function OneOffGame({ onComplete, isCompleted }: OneOffGameProps) {
                   </p>
                 </div>
               </CardContent>
-            </Card>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      
-      {/* Insights */}
-      <AnimatePresence>
-        {showInsights && insights.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
-          >
-            <Card className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border-purple-200 dark:border-purple-800 overflow-hidden shadow-md">
-              <div className="absolute top-0 left-0 w-full h-1 bg-purple-500" />
-              <CardHeader className="pb-2">
-                <CardTitle className="flex items-center gap-2">
-                  <Lightbulb className="w-5 h-5 text-purple-500" />
-                  Game Insights
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  {insights.map((insight, index) => (
-                    <motion.div 
-                      key={index}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3, delay: index * 0.1 }}
-                      className="flex items-start gap-2"
-                    >
-                      <div className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-1.5" />
-                      <p className="text-gray-700 dark:text-gray-300">{insight}</p>
-                    </motion.div>
-                  ))}
-                </div>
-              </CardContent>
-              <CardFooter className="pt-0">
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="text-purple-600 dark:text-purple-400"
-                  onClick={() => setShowInsights(false)}
-                >
-                  Dismiss
-                </Button>
-              </CardFooter>
             </Card>
           </motion.div>
         )}
