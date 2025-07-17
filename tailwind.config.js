@@ -19,6 +19,8 @@ module.exports = {
       fontFamily: {
         mono: ['IBM Plex Mono', 'monospace'],
         sans: ['IBM Plex Sans', 'system-ui', 'sans-serif'],
+        'ibm-plex-sans': ['var(--font-ibm-plex-sans)', 'system-ui', 'sans-serif'],
+        'ibm-plex-mono': ['var(--font-ibm-plex-mono)', 'monospace'],
       },
       colors: {
         border: "hsl(var(--border))",

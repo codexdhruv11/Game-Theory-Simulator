@@ -3,7 +3,7 @@
 import React from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
-import { Tooltip } from "@/components/ui/tooltip"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { motion } from "framer-motion"
 import { TrendingUp, Award, Users, BarChart3, History, Info } from "lucide-react"
 import { AnimatedCounter } from "@/components/ui/animated-counter"
@@ -158,8 +158,11 @@ export function GameStatsPanel({
                   <span className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</span>
                   
                   {stat.tooltip && (
-                    <Tooltip content={stat.tooltip}>
-                      <Info className="w-3.5 h-3.5 text-gray-400" />
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Info className="w-3.5 h-3.5 text-gray-400 cursor-help" />
+                      </TooltipTrigger>
+                      <TooltipContent>{stat.tooltip}</TooltipContent>
                     </Tooltip>
                   )}
                 </div>

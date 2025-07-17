@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { SuppressHydrationWarning } from '@/components/suppress-hydration-warning'
 import { RemoveBisAttribute } from '@/components/remove-bis-attribute'
 import { AuthProvider } from '@/contexts/AuthContext'
+import { TooltipProvider } from '@/components/ui/tooltip'
 
 const ibmPlexMono = IBM_Plex_Mono({
   subsets: ['latin'],
@@ -30,7 +31,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${ibmPlexMono.variable} ${ibmPlexSans.variable} font-sans`} suppressHydrationWarning>
+      <body className={`${ibmPlexMono.variable} ${ibmPlexSans.variable} font-sans font-ibm-plex-sans`} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -39,10 +40,12 @@ export default function RootLayout({
           themes={['light', 'dark', 'system', 'theme-academic', 'theme-neon']}
         >
           <AuthProvider>
-            <RemoveBisAttribute />
-            <SuppressHydrationWarning>
-              {children}
-            </SuppressHydrationWarning>
+            <TooltipProvider>
+              <RemoveBisAttribute />
+              <SuppressHydrationWarning>
+                {children}
+              </SuppressHydrationWarning>
+            </TooltipProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>
