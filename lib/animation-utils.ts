@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useIntersectionObserver } from 'react-use';
+import { useInView } from 'react-intersection-observer';
 
 /**
  * Custom hook for orchestrating multi-step animations
@@ -151,18 +151,41 @@ export function useAnimatedNumber(
 export function useEntranceAnimation(
   options: IntersectionObserverInit = { threshold: 0.1 }
 ) {
-  const [ref, setRef] = useState<HTMLElement | null>(null);
+  const { ref, inView } = useInView(options);
   const [isVisible, setIsVisible] = useState<boolean>(false);
-
-  const intersectionObserver = useIntersectionObserver(ref, options);
   
   useEffect(() => {
-    if (intersectionObserver?.isIntersecting && !isVisible) {
+    if (inView && !isVisible) {
       setIsVisible(true);
     }
-  }, [intersectionObserver, isVisible]);
+  }, [inView, isVisible]);
 
-  return [setRef, isVisible] as const;
+  return [ref, isVisible] as const;
+}
+
+/**
+ * Custom hook for animating visibility based on intersection observer
+ * @param ref - React ref object for the element to observe
+ * @param options - Intersection observer options
+ * @returns isVisible state
+ */
+export function useAnimatedVisibility(
+  ref: React.RefObject<HTMLElement>,
+  options: IntersectionObserverInit = { threshold: 0.1 }
+) {
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const { inView } = useInView({ 
+    root: ref.current ? ref.current.parentElement : null,
+    ...options 
+  });
+  
+  useEffect(() => {
+    if (inView && !isVisible) {
+      setIsVisible(true);
+    }
+  }, [inView, isVisible]);
+
+  return isVisible;
 }
 
 /**
