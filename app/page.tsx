@@ -4,6 +4,7 @@ import { GameTheoryIntro } from "@/components/game-theory-intro"
 import { ZeroSumGame } from "@/components/zero-sum-game"
 import { AuctionSimulator } from "@/components/auction-simulator"
 import { AuthenticatedLayout } from "@/components/layout/authenticated-layout"
+import Link from "next/link"
 
 // Enhanced components
 import { EnhancedPrisonersDilemma } from "@/components/enhanced/enhanced-prisoners-dilemma"
@@ -39,6 +40,20 @@ export default function Home() {
           className="md:col-span-2 lg:col-span-2"
         >
           <EnhancedPrisonersDilemma />
+        </BentoItem>
+        
+        <BentoItem
+          title="Trust Evolution"
+          description="Explore how trust and cooperation evolve over time"
+          className="md:col-span-2 lg:col-span-3"
+        >
+          <div className="flex flex-col items-center justify-center h-full p-6 bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-950 dark:to-indigo-900 rounded-lg">
+            <h3 className="text-2xl font-bold mb-3">The Evolution of Trust</h3>
+            <p className="text-center mb-6">Discover how trust emerges, breaks, and evolves in different environments through interactive simulations.</p>
+            <Link href="/trust-evolution" className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+              Start Exploration
+            </Link>
+          </div>
         </BentoItem>
         
         <BentoItem
@@ -132,7 +147,7 @@ export default function Home() {
         <BentoItem
           title="Evolutionary Game"
           description="Watch strategies evolve over time"
-          className="md:col-span-2 lg:col-span-3"
+          className="md:col-span-2 lg:col-span-2"
         >
           <EnhancedEvolutionaryGame />
         </BentoItem>
