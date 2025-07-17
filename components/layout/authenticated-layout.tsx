@@ -1,23 +1,33 @@
 "use client"
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { LoginForm } from '@/components/auth/login-form'
 import { ThemeSwitcher } from '@/components/theme-switcher'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { User, Settings, Trophy, Brain, LogOut, BarChart3, X } from 'lucide-react'
+import { User, Settings, Trophy, Brain, LogOut, BarChart3, X, LogIn } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 interface AuthenticatedLayoutProps {
   children: React.ReactNode
+  requireAuth?: boolean
 }
 
-export function AuthenticatedLayout({ children }: AuthenticatedLayoutProps) {
+export function AuthenticatedLayout({ children, requireAuth = false }: AuthenticatedLayoutProps) {
   const { user, login, register, loginAsGuest, logout, isLoading } = useAuth()
   const [error, setError] = useState<string | undefined>()
   const [showGuestBanner, setShowGuestBanner] = useState(true)
+  const [authCheckComplete, setAuthCheckComplete] = useState(false)
+
+  useEffect(() => {
+    // Set auth check complete after a short delay to prevent flashing
+    const timer = setTimeout(() => {
+      setAuthCheckComplete(true)
+    }, 500)
+    return () => clearTimeout(timer)
+  }, [])
 
   const handleLogin = async (credentials: { email: string; password: string }) => {
     const result = await login(credentials.email, credentials.password)
@@ -46,7 +56,17 @@ export function AuthenticatedLayout({ children }: AuthenticatedLayoutProps) {
     }
   }
 
-  if (!user) {
+  // If still loading and not completed auth check, show nothing yet
+  if (isLoading && !authCheckComplete) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full"></div>
+      </div>
+    )
+  }
+
+  // If authentication is required and user is not logged in, show login form
+  if (requireAuth && !user && authCheckComplete) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-6">
         <div className="w-full max-w-md">
@@ -77,64 +97,71 @@ export function AuthenticatedLayout({ children }: AuthenticatedLayoutProps) {
         <div className="flex items-center gap-4">
           <ThemeSwitcher />
           
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                <Avatar className="h-10 w-10">
-                  <AvatarImage src={user.profile?.avatar} alt={user.profile?.displayName} />
-                  <AvatarFallback>
-                    {user.profile?.displayName?.[0] || user.username[0]}
-                  </AvatarFallback>
-                </Avatar>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56" align="end" forceMount>
-              <div className="flex items-center justify-start gap-2 p-2">
-                <div className="flex flex-col space-y-1 leading-none">
-                  <p className="font-medium">{user.profile?.displayName || user.username}</p>
-                  {user.email && (
-                    <p className="text-xs text-muted-foreground">{user.email}</p>
-                  )}
-                  {user.isGuest && (
-                    <p className="text-xs text-orange-600">Guest User</p>
-                  )}
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                  <Avatar className="h-10 w-10">
+                    <AvatarImage src={user.profile?.avatar} alt={user.profile?.displayName} />
+                    <AvatarFallback>
+                      {user.profile?.displayName?.[0] || user.username[0]}
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end" forceMount>
+                <div className="flex items-center justify-start gap-2 p-2">
+                  <div className="flex flex-col space-y-1 leading-none">
+                    <p className="font-medium">{user.profile?.displayName || user.username}</p>
+                    {user.email && (
+                      <p className="text-xs text-muted-foreground">{user.email}</p>
+                    )}
+                    {user.isGuest && (
+                      <p className="text-xs text-orange-600">Guest User</p>
+                    )}
+                  </div>
                 </div>
-              </div>
-              <DropdownMenuSeparator />
-              
-              <DropdownMenuItem>
-                <User className="mr-2 h-4 w-4" />
-                <span>Profile</span>
-              </DropdownMenuItem>
-              
-              <DropdownMenuItem>
-                <BarChart3 className="mr-2 h-4 w-4" />
-                <span>Statistics</span>
-              </DropdownMenuItem>
-              
-              <DropdownMenuItem>
-                <Trophy className="mr-2 h-4 w-4" />
-                <span>Leaderboards</span>
-              </DropdownMenuItem>
-              
-              <DropdownMenuItem>
-                <Brain className="mr-2 h-4 w-4" />
-                <span>Moral Alignment</span>
-              </DropdownMenuItem>
-              
-              <DropdownMenuItem>
-                <Settings className="mr-2 h-4 w-4" />
-                <span>Settings</span>
-              </DropdownMenuItem>
-              
-              <DropdownMenuSeparator />
-              
-              <DropdownMenuItem onClick={logout}>
-                <LogOut className="mr-2 h-4 w-4" />
-                <span>Log out</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                <DropdownMenuSeparator />
+                
+                <DropdownMenuItem>
+                  <User className="mr-2 h-4 w-4" />
+                  <span>Profile</span>
+                </DropdownMenuItem>
+                
+                <DropdownMenuItem>
+                  <BarChart3 className="mr-2 h-4 w-4" />
+                  <span>Statistics</span>
+                </DropdownMenuItem>
+                
+                <DropdownMenuItem>
+                  <Trophy className="mr-2 h-4 w-4" />
+                  <span>Leaderboards</span>
+                </DropdownMenuItem>
+                
+                <DropdownMenuItem>
+                  <Brain className="mr-2 h-4 w-4" />
+                  <span>Moral Alignment</span>
+                </DropdownMenuItem>
+                
+                <DropdownMenuItem>
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Settings</span>
+                </DropdownMenuItem>
+                
+                <DropdownMenuSeparator />
+                
+                <DropdownMenuItem onClick={logout}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button variant="outline" size="sm" onClick={() => loginAsGuest()}>
+              <LogIn className="mr-2 h-4 w-4" />
+              <span>Sign In</span>
+            </Button>
+          )}
         </div>
       </header>
 
@@ -142,7 +169,7 @@ export function AuthenticatedLayout({ children }: AuthenticatedLayoutProps) {
         {children}
       </main>
 
-      {user.isGuest && showGuestBanner && (
+      {user?.isGuest && showGuestBanner && (
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
