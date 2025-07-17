@@ -207,13 +207,13 @@ export function Evolution({ onComplete, isCompleted }: EvolutionProps) {
               </div>
               <div>
                 <div className="text-2xl font-bold">
-                  {currentData ? (((currentData as any).cooperationRate || 0) * 100).toFixed(1) : 0}%
+                  {currentData ? ((currentData.cooperationRate || 0) * 100).toFixed(1) : 0}%
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">Cooperation</div>
               </div>
               <div>
                 <div className="text-2xl font-bold">
-                  {currentData ? ((currentData as any).averageFitness || 0).toFixed(1) : 0}
+                  {currentData ? (currentData.averageFitness || 0).toFixed(1) : 0}
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">Avg Fitness</div>
               </div>
