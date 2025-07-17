@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react"
 import { CourseLayout } from "@/components/layout/course-layout"
+import { AnimatedBackground } from "@/components/ui/animated-background"
 import { AnimatedCounter } from "@/components/ui/animated-counter"
 import { StageStepper } from "@/components/ui/stage-stepper"
 import { BookOpen, Target, Users, Zap, Settings, BarChart3, Lightbulb, GraduationCap, Trophy } from "lucide-react"
@@ -148,15 +149,17 @@ export default function PrisonersDilemmaPage() {
   }
 
   return (
-    <CourseLayout
-      title="The Prisoner's Dilemma"
-      description="A comprehensive journey through game theory's most famous paradox"
-      stages={STAGES}
-      currentStage={currentStage}
-      completedStages={completedStages}
-      userProgress={userProgress}
-      onStageComplete={handleStageComplete}
-      onStageChange={handleStageChange}
-    />
+    <AnimatedBackground variant="default" intensity="medium" interactive={true}>
+      <CourseLayout
+        title="The Prisoner's Dilemma"
+        description="A comprehensive journey through game theory's most famous paradox"
+        stages={STAGES}
+        currentStage={currentStage}
+        completedStages={completedStages}
+        userProgress={userProgress}
+        onStageComplete={handleStageComplete}
+        onStageChange={handleStageChange}
+      />
+    </AnimatedBackground>
   )
 }
