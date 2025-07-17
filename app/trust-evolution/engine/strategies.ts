@@ -310,7 +310,66 @@ export const REVERSE_TIT_FOR_TAT: Strategy = {
   }
 }
 
-// Update the ALL_STRATEGIES array to include all five new strategies
+// GRADUAL Strategy - Escalates punishment gradually
+export const GRADUAL: Strategy = {
+  id: "gradual",
+  name: "Gradual",
+  description: "Escalates punishment gradually - defects n times after nth defection, then cooperates twice",
+  color: "#f59e0b",
+  isNice: true,
+  isProvokable: true,
+  isForgiving: true,
+  isClear: true,
+  getMove: (history, opponentHistory) => {
+    if (opponentHistory.length === 0) return "cooperate"
+    
+    // Count opponent defections
+    const opponentDefections = opponentHistory.filter(move => move === "defect").length
+    
+    if (opponentDefections === 0) return "cooperate"
+    
+    // Get our move history
+    const ourMoves = history.map(r => r.player1Move)
+    
+    // Count how many times we've defected in response to current defection count
+    let defectionResponseCount = 0
+    let cooperationAfterPunishment = 0
+    let inPunishmentPhase = false
+    
+    // Analyze our response pattern
+    for (let i = 0; i < ourMoves.length; i++) {
+      const opponentDefectionsUpToI = opponentHistory.slice(0, i + 1).filter(m => m === "defect").length
+      
+      if (opponentDefectionsUpToI > 0 && ourMoves[i] === "defect") {
+        if (!inPunishmentPhase || opponentDefectionsUpToI > defectionResponseCount) {
+          defectionResponseCount++
+          inPunishmentPhase = true
+          cooperationAfterPunishment = 0
+        }
+      } else if (inPunishmentPhase && ourMoves[i] === "cooperate") {
+        cooperationAfterPunishment++
+        if (cooperationAfterPunishment >= 2) {
+          inPunishmentPhase = false
+        }
+      }
+    }
+    
+    // If we're in punishment phase and haven't defected enough times
+    if (inPunishmentPhase && defectionResponseCount < opponentDefections) {
+      return "defect"
+    }
+    
+    // If we've defected enough but haven't cooperated twice yet
+    if (inPunishmentPhase && cooperationAfterPunishment < 2) {
+      return "cooperate"
+    }
+    
+    // Default to cooperation
+    return "cooperate"
+  }
+}
+
+// Update the ALL_STRATEGIES array to include all strategies
 export const ALL_STRATEGIES: Strategy[] = [
   ALWAYS_COOPERATE,
   ALWAYS_DEFECT,
@@ -328,7 +387,8 @@ export const ALL_STRATEGIES: Strategy[] = [
   HARD_MAJORITY,
   ALTERNATE,
   SPITEFUL,
-  REVERSE_TIT_FOR_TAT
+  REVERSE_TIT_FOR_TAT,
+  GRADUAL
 ]
 
 // Strategy categories for educational purposes
