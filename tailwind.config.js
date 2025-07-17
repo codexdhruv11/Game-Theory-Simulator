@@ -18,6 +18,7 @@ module.exports = {
     extend: {
       fontFamily: {
         mono: ['IBM Plex Mono', 'monospace'],
+        sans: ['IBM Plex Sans', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -70,6 +71,11 @@ module.exports = {
           DEFAULT: "hsl(var(--instability))",
           foreground: "hsl(var(--instability-foreground))",
         },
+        // Trust evolution specific colors
+        "trust-high": "#22c55e",
+        "trust-low": "#ef4444",
+        "cooperation-success": "#3b82f6",
+        "defection-warning": "#f59e0b",
       },
       borderRadius: {
         lg: "var(--radius)",
