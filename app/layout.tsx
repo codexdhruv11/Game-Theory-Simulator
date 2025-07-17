@@ -1,18 +1,14 @@
 import type { Metadata } from 'next'
-import { IBM_Plex_Mono, IBM_Plex_Sans } from 'next/font/google'
+import { IBM_Plex_Sans } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import { SuppressHydrationWarning } from '@/components/suppress-hydration-warning'
 import { RemoveBisAttribute } from '@/components/remove-bis-attribute'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import { FontProvider } from '@/components/font-provider'
 
-const ibmPlexMono = IBM_Plex_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-ibm-plex-mono',
-})
-
+// Load IBM Plex Sans for server-side rendering
 const ibmPlexSans = IBM_Plex_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
@@ -31,7 +27,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${ibmPlexMono.variable} ${ibmPlexSans.variable} font-sans font-ibm-plex-sans`} suppressHydrationWarning>
+      <body className={`${ibmPlexSans.variable} font-sans font-ibm-plex-sans`} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -41,10 +37,12 @@ export default function RootLayout({
         >
           <AuthProvider>
             <TooltipProvider>
-              <RemoveBisAttribute />
-              <SuppressHydrationWarning>
-                {children}
-              </SuppressHydrationWarning>
+              <FontProvider>
+                <RemoveBisAttribute />
+                <SuppressHydrationWarning>
+                  {children}
+                </SuppressHydrationWarning>
+              </FontProvider>
             </TooltipProvider>
           </AuthProvider>
         </ThemeProvider>
