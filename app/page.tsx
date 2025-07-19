@@ -1,3 +1,5 @@
+"use client"
+
 import { BentoLayout, BentoItem } from "@/components/bento-layout"
 import { AuthenticatedLayout } from "@/components/layout/authenticated-layout"
 import Link from "next/link"
@@ -10,7 +12,7 @@ import {
   Network,
   Coins,
   Vote,
-  Handshake,
+  HandshakeIcon,
   LineChart,
   Trophy,
   Zap,
@@ -64,7 +66,7 @@ export default function Home() {
             title="Trust Evolution"
             description="Study the development of trust in strategic settings"
             variant="feature"
-            icon={Handshake}
+            icon={HandshakeIcon}
           >
             <p>Engage in experiments that show how trust forms and evolves.</p>
             <Link href="/trust-evolution" className="inline-flex items-center text-primary hover:underline mt-3">
