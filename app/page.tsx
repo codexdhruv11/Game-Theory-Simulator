@@ -100,14 +100,17 @@ export default function Home() {
             title="Mechanism Design"
             description="Designing rule sets for achieving desired objectives"
             variant="hero"
-            gradient="linear-gradient(to br, var(--tw-gradient-from), var(--tw-gradient-to))"
+            gradient="linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
             icon={Scale}
+            className="md:col-span-2 lg:col-span-3"
           >
-            <div className="flex justify-between mt-6">
-              <Button variant="outline" className="text-accent-foreground">
-                Design Now
-              </Button>
-              <span className="font-bold text-accent text-2xl">Craft the Rules</span>
+            <div className="flex flex-col gap-4">
+              <p className="text-white/90">Create optimal rules and incentive structures for strategic environments.</p>
+              <Link href="/mechanism-design">
+                <Button variant="secondary" size="lg" className="w-full md:w-auto">
+                  Start Designing
+                </Button>
+              </Link>
             </div>
           </BentoItem>
 
@@ -151,14 +154,17 @@ export default function Home() {
             title="Voting Systems"
             description="Understand decision-making in groups"
             variant="hero"
-            gradient="linear-gradient(to br, var(--tw-gradient-from), var(--tw-gradient-to))"
+            gradient="linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
             icon={Vote}
+            className="md:col-span-2"
           >
-            <div className="flex justify-between mt-6">
-              <Button variant="outline" className="text-accent-foreground">
-                Explore
-              </Button>
-              <span className="font-bold text-accent text-2xl">Participate in Democracy</span>
+            <div className="flex flex-col gap-4">
+              <p className="text-white/90">Explore different voting mechanisms and their strategic implications.</p>
+              <Link href="/voting-theory">
+                <Button variant="secondary" size="lg" className="w-full md:w-auto">
+                  Explore Voting Systems
+                </Button>
+              </Link>
             </div>
           </BentoItem>
 
