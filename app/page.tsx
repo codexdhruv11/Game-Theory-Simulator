@@ -1,24 +1,25 @@
 import { BentoLayout, BentoItem } from "@/components/bento-layout"
-import { NashEquilibrium } from "@/components/nash-equilibrium"
-import { GameTheoryIntro } from "@/components/game-theory-intro"
-import { ZeroSumGame } from "@/components/zero-sum-game"
-import { AuctionSimulator } from "@/components/auction-simulator"
 import { AuthenticatedLayout } from "@/components/layout/authenticated-layout"
 import Link from "next/link"
-
-// Enhanced components
-import { EnhancedPrisonersDilemma } from "@/components/enhanced/enhanced-prisoners-dilemma"
-import { EnhancedEvolutionaryGame } from "@/components/enhanced/enhanced-evolutionary-game"
-
-// Advanced components
-import { NetworkGame } from "@/components/advanced/network-game"
-import { CooperativeGame } from "@/components/advanced/cooperative-game"
-import { MechanismDesign } from "@/components/advanced/mechanism-design"
-import { BehavioralEconomics } from "@/components/advanced/behavioral-economics"
-import { SignalingGame } from "@/components/advanced/signaling-game"
-import { MatchingTheory } from "@/components/advanced/matching-theory"
-import { VotingTheory } from "@/components/advanced/voting-theory"
-import { RepeatedGames } from "@/components/advanced/repeated-games"
+import { 
+  Brain, 
+  Users, 
+  TrendingUp, 
+  Scale, 
+  Award,
+  Network,
+  Coins,
+  Vote,
+  Handshake,
+  LineChart,
+  Trophy,
+  Zap,
+  Target,
+  Lightbulb,
+  ArrowRight,
+  PlayCircle
+} from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export default function Home() {
   return (
