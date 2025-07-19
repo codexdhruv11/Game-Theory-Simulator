@@ -47,14 +47,16 @@ export default function Home() {
             title="Prisoner's Dilemma"
             description="Interactive simulation of cooperation vs. defection"
             variant="hero"
-            gradient="linear-gradient(to br, var(--tw-gradient-from), var(--tw-gradient-to))"
+            gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
             icon={Users}
+            className="md:col-span-2"
           >
-            <div className="flex justify-between mt-6">
-              <Button variant="outline" className="text-accent-foreground">
-                Explore
-              </Button>
-              <span className="font-bold text-accent text-2xl">Understand the Dilemma</span>
+            <div className="flex flex-col gap-4">
+              <Link href="/prisoners-dilemma">
+                <Button variant="secondary" size="lg" className="w-full md:w-auto">
+                  Start Interactive Demo
+                </Button>
+              </Link>
             </div>
           </BentoItem>
 
